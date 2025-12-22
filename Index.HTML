@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Understanding Gen-Z | The Open Guide</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Gujarati:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- DESIGN SYSTEM: Day & Night --- */
+        :root {
+            /* Light Theme (Default) */
+            --col-bg: #F5F7FA;
+            --col-primary: #2C3E50;
+            --col-secondary: #E67E22;
+            --col-card: #FFFFFF;
+            --col-text: #333333;
+            --col-text-muted: #555555;
+            --col-border: #E0E0E0;
+            --col-accent-bg: #EBF2F7;
+            --glass: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255,255,255,0.2);
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.05);
+            --tldr-bg: #FFF3E0;
+            --tldr-border: #FFE0B2;
+            --script-bg: #EDF2F7;
+            /* Added for new content sections */
+            --danger-soft: #FDECEC;
+            --danger-text: #C0392B;
+            --success-soft: #E8F8F5;
+            --success-text: #27AE60;
+            --neutral-soft: #FFF8E1;
+            --neutral-text: #F39C12;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --col-bg: #121212;
+            --col-primary: #A9C6E8; /* Softer Blue for dark mode */
+            --col-secondary: #F39C12;
+            --col-card: #1E1E1E;
+            --col-text: #E0E0E0;
+            --col-text-muted: #AAAAAA;
+            --col-border: #333333;
+            --col-accent-bg: #2C3E50;
+            --glass: rgba(30, 30, 30, 0.95);
+            --glass-border: rgba(255,255,255,0.05);
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.3);
+            --tldr-bg: #2D261A;
+            --tldr-border: #4D3C20;
+            --script-bg: #25282C;
+            --danger-soft: #2C1B1B;
+            --danger-text: #E74C3C;
+            --success-soft: #1B2B20;
+            --success-text: #2ECC71;
+            --neutral-soft: #2C250A;
+            --neutral-text: #F1C40F;
+        }
+
+        /* --- BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--col-bg);
+            color: var(--col-text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            font-size: 17px; /* Base Font Size */
+            overflow-x: hidden;
+        }
+
+        /* Language Typography */
+        body.lang-hi { font-family: 'Noto Sans Devanagari', sans-serif; line-height: 1.9; }
+        body.lang-gu { font-family: 'Noto Sans Gujarati', sans-serif; line-height: 1.9; }
+
+        h1, h2, h3, h4 {
+            font-family: 'Lora', serif;
+            color: var(--col-primary);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Headers inherit sans-serif for Indian languages */
+        body.lang-hi h1, body.lang-hi h2, body.lang-hi h3 { font-family: 'Noto Sans Devanagari', sans-serif; }
+        body.lang-gu h1, body.lang-gu h2, body.lang-gu h3 { font-family: 'Noto Sans Gujarati', sans-serif; }
+
+        p { margin-bottom: 1.5rem; color: var(--col-text); }
+        ul, ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--col-text-muted); }
+        li { margin-bottom: 0.8rem; }
+        strong { color: var(--col-primary); font-weight: 600; }
+        
+        /* Progress Bar */
+        #progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: transparent; z-index: 1000; }
+        #progress-bar { height: 4px; background: var(--col-secondary); width: 0%; transition: width 0.1s; }
+
+        /* --- LAYOUT --- */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar Navigation with Glassmorphism */
+        .sidebar {
+            width: 300px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-right: 1px solid var(--glass-border);
+            height: 100vh;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 100;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .brand-area { margin-bottom: 2rem; border-bottom: 1px solid var(--col-border); padding-bottom: 1rem; }
+        .brand-area h2 { margin: 0; font-size: 1.5rem; color: var(--col-primary); }
+        .brand-area p { margin: 0; font-size: 0.8rem; color: var(--col-secondary); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        .nav-list { list-style: none; padding: 0; margin: 0; }
+        .nav-item {
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--col-text-muted);
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 12px;
+            font-weight: 500;
+        }
+        .nav-item:hover { background: var(--col-accent-bg); color: var(--col-primary); }
+        .nav-item.active { background: var(--col-primary); color: #fff; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .nav-item i { width: 20px; text-align: center; }
+
+        /* Main Content Area */
+        .main-wrapper {
+            margin-left: 300px;
+            width: calc(100% - 300px);
+            padding: 4rem 10%;
+            min-height: 100vh;
+        }
+
+        /* --- COMPONENT STYLES --- */
+        
+        /* Utility Bar (Lang + Theme + Font) */
+        .utility-bar {
+            position: fixed; top: 1.5rem; right: 2rem; z-index: 500;
+            display: flex; gap: 10px; align-items: center;
+        }
+
+        .lang-container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--shadow-soft);
+            display: flex; gap: 5px;
+        }
+        
+        .font-controls {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: var(--shadow-soft);
+            display: flex; gap: 5px;
+        }
+
+        .icon-btn {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: var(--col-text);
+            box-shadow: var(--shadow-soft);
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+        .icon-btn:hover { background: var(--col-accent-bg); }
+
+        .lang-btn {
+            border: none; background: transparent;
+            padding: 8px 16px; border-radius: 25px;
+            font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; color: var(--col-text-muted);
+            transition: 0.2s;
+        }
+        .lang-btn.active { background: var(--col-secondary); color: white; box-shadow: 0 2px 8px rgba(230, 126, 34, 0.3); }
+
+        /* Content Elements */
+        .chapter-label {
+            display: inline-block; background: var(--col-accent-bg); color: var(--col-text-muted);
+            padding: 4px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;
+        }
+
+        .image-frame {
+            width: 100%; height: auto;
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            background-color: var(--col-accent-bg);
+            position: relative;
+        }
+        .image-frame img {
+            width: 100%; height: auto; display: block; object-fit: cover;
+            animation: subtleZoom 20s infinite alternate;
+        }
+        @keyframes subtleZoom { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+        .highlight-box {
+            background: var(--col-card);
+            border-left: 5px solid var(--col-primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 16px 16px 0;
+            margin: 2.5rem 0;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .creator-profile {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .creator-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--col-card);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+        @media (max-width: 768px) {
+            .creator-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        .secret-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border-left: 5px solid #e74c3c;
+        }
+        .secret-box h4 { color: #e74c3c; margin-top: 0; }
+        .secret-box p { color: #bdc3c7; }
+
+        /* TL;DR Box */
+        .tldr-box {
+            background: var(--tldr-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--tldr-border);
+        }
+        .tldr-title { font-weight: 700; color: var(--col-secondary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+        
+        .term-card {
+            background: var(--col-card); border: 1px solid var(--col-border);
+            padding: 1.5rem; border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.2s;
+        }
+        .term-card:hover { transform: translateY(-3px); }
+        .term-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .term-name { font-size: 1.2rem; font-weight: 700; color: var(--col-secondary); }
+        .term-type { font-size: 0.8rem; color: var(--col-text-muted); text-transform: uppercase; border: 1px solid var(--col-border); padding: 2px 6px; border-radius: 4px; }
+
+        .script-box {
+            background: var(--script-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 1.5rem 0;
+            border: 1px dashed var(--col-border);
+        }
+        
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 1rem;
+        }
+        .do-col { background: var(--success-soft); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--success-text); }
+        .dont-col { background: var(--danger-soft); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--danger-text); }
+
+        .video-btn {
+            display: flex; align-items: center; gap: 15px;
+            background: var(--col-card); border: 1px solid var(--col-border);
+            padding: 1rem; border-radius: 16px;
+            margin-bottom: 1rem; transition: 0.2s; text-decoration: none; color: inherit;
+            box-shadow: var(--shadow-soft);
+        }
+        .video-btn:hover { border-color: var(--col-secondary); transform: translateY(-3px); }
+        .video-btn i { color: #cc0000; font-size: 1.8rem; }
+        
+        .ref-link {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--col-primary);
+            text-decoration: none;
+            padding: 10px;
+            border-bottom: 1px solid var(--col-border);
+            transition: 0.2s;
+        }
+        .ref-link:hover {
+            color: var(--col-secondary);
+            background: var(--col-accent-bg);
+            padding-left: 15px;
+        }
+        
+        /* --- ROLEPLAY DOJO STYLES --- */
+        .chat-container {
+            max-width: 100%;
+            margin: 2rem 0;
+            background: var(--col-card);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            border: 1px solid var(--col-border);
+            display: flex; flex-direction: column;
+        }
+        .chat-screen {
+            height: 400px;
+            background: var(--col-bg);
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .chat-bubble {
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 85%;
+            font-size: 1rem;
+            line-height: 1.4;
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chat-bubble.received {
+            background: #e0e0e0;
+            color: #000;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-bubble.sent {
+            background: var(--col-secondary);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-controls {
+            padding: 20px;
+            background: var(--glass);
+            border-top: 1px solid var(--col-border);
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: var(--col-card);
+            border: 1px solid var(--col-border);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            color: var(--col-text);
+        }
+        .option-btn:hover {
+            background: var(--col-accent-bg);
+            border-color: var(--col-secondary);
+            transform: translateX(5px);
+        }
+        .dojo-feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .dojo-feedback.positive { background: var(--success-soft); color: var(--success-text); border: 1px solid var(--success-text); }
+        .dojo-feedback.negative { background: var(--danger-soft); color: var(--danger-text); border: 1px solid var(--danger-text); }
+        .dojo-feedback.neutral { background: var(--neutral-soft); color: var(--neutral-text); border: 1px solid var(--neutral-text); }
+        
+        .dojo-nav { display: flex; gap: 10px; margin-top: 10px; }
+        .nav-btn-dojo { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; color: #fff; background: var(--col-primary); transition: 0.2s; }
+        .nav-btn-dojo:hover { opacity: 0.9; }
+        .nav-btn-dojo.secondary { background: var(--col-text-muted); }
+
+        @keyframes popIn { from { opacity:0; transform: scale(0.8); } to { opacity:1; transform: scale(1); } }
+
+        /* --- MOBILE RESPONSIVE --- */
+        .mobile-header { display: none; }
+
+        @media (max-width: 992px) {
+            .app-container { flex-direction: column; }
+            .sidebar { transform: translateX(-100%); width: 85%; box-shadow: 2px 0 15px rgba(0,0,0,0.2); }
+            .sidebar.open { transform: translateX(0); }
+            
+            .main-wrapper { margin-left: 0; width: 100%; padding: 6rem 5% 4rem 5%; }
+            
+            .mobile-header {
+                display: flex; justify-content: space-between; align-items: center;
+                padding: 1rem 5%; 
+                background: var(--glass);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                position: fixed; top: 0; left: 0; width: 100%;
+                z-index: 400; border-bottom: 1px solid var(--col-border);
+            }
+            .menu-toggle { font-size: 1.4rem; color: var(--col-primary); cursor: pointer; }
+            .utility-bar { position: static; gap: 10px; }
+            .lang-container { box-shadow: none; border: none; padding: 0; background: none; }
+            .font-controls { display: none; } /* Hide font controls on mobile header to save space, usually zoom works there */
+            h1 { font-size: 1.8rem; }
+            .dos-donts { grid-template-columns: 1fr; }
+            .creator-profile { flex-direction: column; text-align: center; }
+        }
+        
+        /* Show Font Controls in Mobile Menu if needed */
+        @media (max-width: 992px) {
+             .font-controls-mob {
+                 display: flex; justify-content: center; gap: 10px; margin-bottom: 1rem;
+             }
+             .font-controls-mob button {
+                 width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--col-border); background: var(--col-card); color: var(--col-text);
+             }
+        }
+
+        /* Animation */
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <header class="mobile-header">
+        <div class="brand-area" style="border:none; padding:0; margin:0;" onclick="loadPage('home')">
+            <h2 style="margin:0; font-size:1.1rem; margin-top:0;">Understanding Gen-Z</h2>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+             <button class="icon-btn" onclick="toggleTheme()" style="width:35px; height:35px; font-size:1rem;">
+                <i class="fa-solid fa-moon" id="theme-icon-mob"></i>
+            </button>
+            <div class="lang-container">
+                <button class="lang-btn active" id="mob-en" onclick="changeLang('en')">EN</button>
+                <button class="lang-btn" id="mob-hi" onclick="changeLang('hi')">HI</button>
+                <button class="lang-btn" id="mob-gu" onclick="changeLang('gu')">GU</button>
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        
+        <nav class="sidebar" id="sidebar">
+            <div class="brand-area" onclick="loadPage('home')">
+                <h2>Understanding Gen-Z</h2>
+                <p>Creator: Abhi Kakkad</p>
+            </div>
+            
+            <!-- Mobile Font Controls inside Sidebar -->
+            <div class="font-controls-mob" style="display:none;">
+                <button onclick="adjustFont(-1)">A-</button>
+                <button onclick="adjustFont(1)">A+</button>
+            </div>
+
+            <ul class="nav-list">
+                <li class="nav-item active" onclick="loadPage('home')"><i class="fa-solid fa-home"></i> Start Here</li>
+                <li class="nav-item" onclick="loadPage('dojo')"><i class="fa-solid fa-gamepad"></i> Roleplay Dojo (Simulator)</li>
+                <li class="nav-item" onclick="loadPage('ch1')"><i class="fa-solid fa-user-group"></i> Ch 1: Who / कौन</li>
+                <li class="nav-item" onclick="loadPage('ch2')"><i class="fa-solid fa-brain"></i> Ch 2: Thinking / सोच</li>
+                <li class="nav-item" onclick="loadPage('ch3')"><i class="fa-solid fa-heart-pulse"></i> Ch 3: Mental Health</li>
+                <li class="nav-item" onclick="loadPage('ch4')"><i class="fa-solid fa-shirt"></i> Ch 4: Fashion & Identity</li>
+                <li class="nav-item" onclick="loadPage('ch5')"><i class="fa-solid fa-comments"></i> Ch 5: Dating & Loyalty</li>
+                <li class="nav-item" onclick="loadPage('ch6')"><i class="fa-solid fa-hand-fist"></i> Ch 6: Culture & Society</li>
+                <li class="nav-item" onclick="loadPage('ch7')"><i class="fa-solid fa-laptop-file"></i> Ch 7: Career & AI</li>
+                <li class="nav-item" onclick="loadPage('ch8')"><i class="fa-solid fa-comment-dots"></i> Ch 8: Reactions</li>
+                <li class="nav-item" onclick="loadPage('ch9')"><i class="fa-solid fa-handshake"></i> Ch 9: Solutions</li>
+                <li class="nav-item" onclick="loadPage('ch10')"><i class="fa-solid fa-hourglass-half"></i> Ch 10: Elders' View</li>
+                <li class="nav-item" onclick="loadPage('bib')"><i class="fa-solid fa-book"></i> Bibliography</li>
+                <li class="nav-item" onclick="loadPage('videos')"><i class="fa-brands fa-youtube"></i> Video Resources</li>
+            </ul>
+        </nav>
+
+        <main class="main-wrapper">
+            <div class="utility-bar" id="desktop-utility">
+                <div class="font-controls">
+                    <button class="icon-btn" onclick="adjustFont(-1)" title="Decrease Text Size" style="width:35px; height:35px; font-size:0.9rem;"><i class="fa-solid fa-minus"></i></button>
+                    <span style="font-size:0.9rem; font-weight:600; padding:0 5px;">Aa</span>
+                    <button class="icon-btn" onclick="adjustFont(1)" title="Increase Text Size" style="width:35px; height:35px; font-size:0.9rem;"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <button class="icon-btn" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon" id="theme-icon-desk"></i>
+                </button>
+                <div class="lang-container">
+                    <button class="lang-btn active" id="desk-en" onclick="changeLang('en')">English</button>
+                    <button class="lang-btn" id="desk-hi" onclick="changeLang('hi')">हिंदी (Hindi)</button>
+                    <button class="lang-btn" id="desk-gu" onclick="changeLang('gu')">ગુજરાતી (Guj)</button>
+                </div>
+            </div>
+
+            <div id="content-display" class="fade-in">
+                </div>
+        </main>
+        
+        <div id="overlay" onclick="toggleMenu()" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:90; display:none;"></div>
+    </div>
+
+    <script>
+        // --- COMPLETE CONTENT DATABASE ---
+        const db = {
+            home: {
+                en: `
+                    <span class="chapter-label">Introduction</span>
+                    <h1>An Open Guide to Understanding Gen-Z</h1>
+                    
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2064&auto=format&fit=crop" alt="Diverse group of young people smiling">
+                    </div>
+
+                    <p style="font-size:1.2rem; color:var(--col-text-muted);">How they think, feel, react, lives, and question — explained with respect.</p>
+                    
+                    <div class="highlight-box creator-profile">
+                        <img src="https://i.ibb.co/svjN5w1J/Abhi.jpg" alt="Abhi Kakkad" class="creator-img" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Abhi+Kakkad&background=0D8ABC&color=fff&size=128';">
+                        <div>
+                            <h3 style="margin-top:0"><i class="fa-solid fa-pen-nib"></i> About the Creator: Abhi Kakkad</h3>
+                            <p>I am currently a college student pursuing my <strong>Integrated MBA (Family Business & Entrepreneurship)</strong> at <strong>Ahmedabad University (AU)</strong>. Since AU emphasizes a "Liberal Education," we are encouraged to look at the world holistically, beyond just textbooks.</p>
+                            <p>I created this website as a personal research project driven by curiosity. It is the result of insights gained from courses like <em>"Understanding Culture"</em> and <em>"Gender Sensitization,"</em> combined with real conversations I've had with professors and fellow students. As a Gen-Z individual myself, this is my humble attempt to bridge the understanding gap between generations.</p>
+                        </div>
+                    </div>
+
+                    <h3>Who is this guide for?</h3>
+                    <ul>
+                        <li>For parents who feel disconnected from their children and confused by their behavior.</li>
+                        <li>For young adults who struggle to explain their complex feelings to their families.</li>
+                        <li>For anyone wanting to understand the world of 1997-2012 borns.</li>
+                    </ul>
+                `,
+                hi: `
+                    <span class="chapter-label">परिचय</span>
+                    <h1>Gen-Z को समझने के लिए एक खुली किताब</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2064&auto=format&fit=crop" alt="Diverse group of young people smiling">
+                    </div>
+
+                    <p style="font-size:1.2rem; color:var(--col-text-muted);">वे कैसे सोचते हैं, महसूस करते हैं, प्रतिक्रिया देते हैं और जीते हैं — सम्मान के साथ समझाया गया।</p>
+                    
+                    <div class="highlight-box creator-profile">
+                        <img src="https://i.ibb.co/svjN5w1J/Abhi.jpg" alt="Abhi Kakkad" class="creator-img" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Abhi+Kakkad&background=0D8ABC&color=fff&size=128';">
+                        <div>
+                            <h3 style="margin-top:0"><i class="fa-solid fa-pen-nib"></i> निर्माता: अभि कक्कड़ (Abhi Kakkad)</h3>
+                            <p>मैं वर्तमान में <strong>अहमदाबाद यूनिवर्सिटी (AU)</strong> से <strong>इंटीग्रेटेड MBA (Family Business & Entrepreneurship)</strong> की पढ़ाई कर रहा हूँ। AU की 'लिबरल एजुकेशन' (Liberal Education) पद्धति ने मुझे चीजों को गहराई से और व्यावहारिक रूप से देखने के लिए प्रेरित किया।</p>
+                            <p>मैंने यह वेबसाइट अपनी जिज्ञासा (Curiosity) के कारण एक व्यक्तिगत शोध प्रोजेक्ट के रूप में बनाई है। यह <em>'Understanding Culture'</em> और <em>'Gender Sensitization'</em> जैसे कोर्सेस, प्रोफेसर्स और कई Gen-Z छात्रों के साथ हुई बातचीत का परिणाम है। खुद Gen-Z होने के नाते, यह मेरी तरफ से पीढ़ियों के बीच की दूरी को पाटने की एक कोशिश है।</p>
+                        </div>
+                    </div>
+
+                    <h3>यह गाइड किसके लिए है?</h3>
+                    <ul>
+                        <li>उन माता-पिता के लिए जो अपने बच्चों से कटा हुआ (disconnected) महसूस करते हैं और उनके व्यवहार से भ्रमित हैं।</li>
+                        <li>उन युवाओं के लिए जो अपने परिवार को अपनी जटिल भावनाएं समझाने में संघर्ष कर रहे हैं।</li>
+                        <li>हर उस व्यक्ति के लिए जो 1997-2012 के बीच जन्मे लोगों की दुनिया को समझना चाहता है।</li>
+                    </ul>
+                `,
+                gu: `
+                    <span class="chapter-label">પરિચય</span>
+                    <h1>Gen-Z ને સમજવા માટેની સંપૂર્ણ માર્ગદર્શિકા</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2064&auto=format&fit=crop" alt="Diverse group of young people smiling">
+                    </div>
+
+                    <p style="font-size:1.2rem; color:var(--col-text-muted);">તેમના વિચારો, લાગણીઓ, પ્રતિક્રિયાઓ અને જીવન જીવવાની રીત — એક સન્માનજનક સમજૂતી.</p>
+                    
+                    <div class="highlight-box creator-profile">
+                        <img src="https://i.ibb.co/svjN5w1J/Abhi.jpg" alt="Abhi Kakkad" class="creator-img" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Abhi+Kakkad&background=0D8ABC&color=fff&size=128';">
+                        <div>
+                            <h3 style="margin-top:0"><i class="fa-solid fa-pen-nib"></i> સર્જક: અભિ કક્કડ</h3>
+                            <p>હું અત્યારે <strong>અમદાવાદ યુનિવર્સિટી (AU)</strong> માંથી <strong>ઈન્ટિગ્રેટેડ MBA (Family Business & Entrepreneurship)</strong> નો અભ્યાસ કરી રહ્યો છું. AU ના 'લિબરલ એજ્યુકેશન' (Liberal Education) અભિગમે મને પુસ્તકિયા જ્ઞાનથી આગળ વધીને વ્યવહારિક સમજ કેળવવા માટે પ્રેરિત કર્યો છે.</p>
+                            <p>આ વેબસાઈટ મેં મારી જિજ્ઞાસા ખાતર એક 'પર્સનલ રિસર્ચ પ્રોજેક્ટ' તરીકે બનાવી છે. મેં કોલેજમાં <em>'Understanding Culture'</em> અને <em>'Gender Sensitization'</em> જેવા વિષયો ભણ્યા, પ્રોફેસરો અને મારા સાથી મિત્રો સાથે ચર્ચા કરી. હું પોતે પણ એક Gen-Z છું, તેથી મેં આ પેઢી અને વડીલો વચ્ચેનો ભેદ દૂર કરવા માટે આ નાનકડો પ્રયાસ કર્યો છે.</p>
+                        </div>
+                    </div>
+
+                    <h3>આ કોના માટે છે?</h3>
+                    <ul>
+                        <li>એવા વાલીઓ માટે જેમને લાગે છે કે તેઓ તેમના બાળકોને સમજી નથી શકતા અને તેમના વર્તનથી મૂંઝવણમાં છે.</li>
+                        <li>એવા યુવાનો માટે જેઓ તેમના પરિવારને પોતાના મનની વાત સમજાવી શકતા નથી.</li>
+                        <li>1997-2012 વચ્ચે જન્મેલા લોકોની દુનિયા સમજવા માંગતા દરેક વ્યક્તિ માટે.</li>
+                    </ul>
+                `
+            },
+            dojo: {
+                en: `
+                    <span class="chapter-label">Interactive</span>
+                    <h1>Roleplay Dojo: Parenting Simulator</h1>
+                    <p>Talking to Gen-Z can feel like walking on eggshells. One wrong word creates a gap. Use this safe simulator to practice your reactions to difficult situations.</p>
+                    
+                    <div class="chat-container">
+                        <div class="chat-screen" id="dojo-screen"></div>
+                        <div class="chat-controls" id="dojo-controls"></div>
+                    </div>
+                `,
+                hi: `
+                    <span class="chapter-label">इंटरैक्टिव</span>
+                    <h1>रोलप्ले डोजो (अभ्यास केंद्र)</h1>
+                    <p>Gen-Z से बात करना कभी-कभी बारूद पर चलने जैसा होता है। एक गलत शब्द और धमाका! इस सिम्युलेटर का उपयोग करके सही जवाब देने का अभ्यास करें।</p>
+                    
+                    <div class="chat-container">
+                        <div class="chat-screen" id="dojo-screen"></div>
+                        <div class="chat-controls" id="dojo-controls"></div>
+                    </div>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રેક્ટિસ</span>
+                    <h1>રોલપ્લે ડોજો (વાતચીત અભ્યાસ)</h1>
+                    <p>Gen-Z સાથે વાત કરવી એ કાચના વાસણ સાચવવા જેવું છે. એક નાની ભૂલ અને સંબંધ તૂટી શકે છે. અહીં સાચા જવાબો આપવાની પ્રેક્ટિસ કરો.</p>
+                    
+                    <div class="chat-container">
+                        <div class="chat-screen" id="dojo-screen"></div>
+                        <div class="chat-controls" id="dojo-controls"></div>
+                    </div>
+                `
+            },
+            ch1: {
+                en: `
+                    <span class="chapter-label">Chapter 1</span>
+                    <h1>Who is Gen-Z?</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop" alt="Young person illuminated by phone screen in dark">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> Quick Summary</div>
+                        <p style="margin:0; font-size:0.9rem;">Gen-Z isn't "difficult" on purpose. They are the first generation to grow up with permanent public records of their mistakes (social media) and constant global comparison. This creates immense hidden pressure.</p>
+                    </div>
+
+                    <p><strong>Definition:</strong> Gen-Z generally refers to people born roughly between <strong>1997 and 2012</strong>. As of late 2025, they are roughly 12–27 years old. They include school students, college graduates, and young professionals building their careers.</p>
+                    
+                    <h3>Why do they feel "different"? (The Real Reason)</h3>
+                    <p>Every generation is shaped by its environment. Gen-Z isn't "special" or "difficult" on purpose. They are the first generation in human history to grow up with three massive forces hitting them simultaneously:</p>
+
+                    <div class="highlight-box">
+                        <h4>1. Permanent Visibility</h4>
+                        <p>In the past, if you made a mistake at school, it was forgotten by evening. For Gen-Z, mistakes can be recorded, screenshotted, and shared forever. They live with the constant fear that one wrong move could ruin their reputation permanently.</p>
+                        
+                        <h4>2. Permanent Comparison</h4>
+                        <p>Social media creates a 24x7 competition. They don't just compare themselves to neighbors; they compare themselves to the richest, prettiest, and happiest people globally. This creates a constant feeling of "I am not enough."</p>
+                        
+                        <h4>3. Permanent Uncertainty</h4>
+                        <p>They grew up watching global crises, pandemics, and unstable job markets. They don't trust that "working hard" guarantees a "good life" anymore, because they've seen that promise fail for others.</p>
+                    </div>
+
+                    <p><strong>The Result:</strong> Gen-Z developed a survival skill: <em>Pre-judging themselves before others do.</em> What looks like "attitude" or "overthinking" is actually a defense mechanism against a loud, judgmental world.</p>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 1</span>
+                    <h1>Gen-Z आखिर कौन है?</h1>
+
+                    <div class="image-frame">
+                         <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop" alt="Young person illuminated by phone screen in dark">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> संक्षिप्त सार</div>
+                        <p style="margin:0; font-size:0.9rem;">Gen-Z जानबूझकर "मुश्किल" नहीं है। वे पहली ऐसी पीढ़ी हैं जिनकी हर गलती का ऑनलाइन रिकॉर्ड (सोशल मीडिया) बन सकता है और जो 24 घंटे दुनिया से अपनी तुलना करते हैं। इससे उन पर बहुत गहरा दबाव रहता है।</p>
+                    </div>
+
+                    <p><strong>परिभाषा:</strong> Gen-Z का मतलब उन लोगों से है जिनका जन्म <strong>1997 और 2012</strong> के बीच हुआ है। आज (2025 के अंत में) उनकी उम्र लगभग 12 से 27 वर्ष है। इनमें स्कूल के बच्चे, कॉलेज के छात्र और करियर शुरू करने वाले युवा शामिल हैं।</p>
+                    
+                    <h3>वे "अलग" क्यों लगते हैं? (असली कारण)</h3>
+                    <p>हर पीढ़ी अपने माहौल से बनती है। Gen-Z जानबूझकर "मुश्किल" नहीं है। वे मानव इतिहास की पहली पीढ़ी हैं जो तीन बहुत बड़ी ताकतों के साथ बड़ी हुई है:</p>
+
+                    <div class="highlight-box">
+                        <h4>1. स्थायी दृश्यता (Permanent Visibility)</h4>
+                        <p>पुराने जमाने में, अगर आपने स्कूल में कोई गलती की, तो शाम तक लोग उसे भूल जाते थे। लेकिन Gen-Z के लिए, गलतियों का वीडियो बनाया जा सकता है, स्क्रीनशॉट लिया जा सकता है और हमेशा के लिए शेयर किया जा सकता है। वे इस डर में जीते हैं कि एक छोटी सी गलती उनकी पूरी इज्जत मिट्टी में मिला सकती है।</p>
+                        
+                        <h4>2. स्थायी तुलना (Permanent Comparison)</h4>
+                        <p>सोशल मीडिया पर 24 घंटे प्रतियोगिता चलती है। वे अपनी तुलना सिर्फ पड़ोसियों से नहीं करते, बल्कि दुनिया के सबसे अमीर और सुंदर लोगों से करते हैं। इससे उनके मन में हमेशा यह भाव रहता है कि "मैं काफी नहीं हूँ" (I am not enough)।</p>
+                        
+                        <h4>3. स्थायी अनिश्चितता (Permanent Uncertainty)</h4>
+                        <p>उन्होंने बचपन से दुनिया में बड़े संकट, महामारियाँ और नौकरियों की कमी देखी है। उन्हें अब इस बात पर भरोसा नहीं रहा कि "कड़ी मेहनत" करने से "अच्छा जीवन" मिलेगा, क्योंकि उन्होंने दूसरों के लिए यह वादा टूटते देखा है।</p>
+                    </div>
+
+                    <p><strong>परिणाम:</strong> Gen-Z ने एक सुरक्षा कवच बना लिया है: <em>दूसरों के जज करने से पहले खुद को जज करना।</em> जिसे आप "Attitude" या "Overthinking" कहते हैं, वह असल में इस कठोर दुनिया से बचने का उनका तरीका है।</p>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 1</span>
+                    <h1>Gen-Z કોણ છે?</h1>
+
+                    <div class="image-frame">
+                         <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop" alt="Young person illuminated by phone screen in dark">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> ટૂંકમાં સાર</div>
+                        <p style="margin:0; font-size:0.9rem;">Gen-Z જાણીજોઈને "જીદ્દી" નથી. આ પહેલી પેઢી છે જેની દરેક ભૂલનો ઓનલાઈન રેકોર્ડ બની શકે છે અને જે સતત દુનિયા સાથે પોતાની સરખામણીના દબાણમાં જીવે છે.</p>
+                    </div>
+
+                    <p><strong>વ્યાખ્યા:</strong> Gen-Z એટલે એવા લોકો જેમનો જન્મ <strong>1997 અને 2012</strong> ની વચ્ચે થયો છે. આજે તેમની ઉંમર આશરે 12 થી 27 વર્ષ છે. આમાં શાળાના વિદ્યાર્થીઓ, કોલેજના યુવાનો અને નોકરીની શરૂઆત કરનારાઓનો સમાવેશ થાય છે.</p>
+                    
+                    <h3>તેઓ અલગ કેમ લાગે છે? (સાચું કારણ)</h3>
+                    <p>દરેક પેઢી તેના સમય પ્રમાણે ઘડાય છે. Gen-Z જાણીજોઈને "જીદ્દી" નથી બન્યા. માનવ ઈતિહાસમાં આ પહેલી પેઢી છે જેણે ત્રણ મોટા દબાણનો સામનો કરવો પડ્યો છે:</p>
+
+                    <div class="highlight-box">
+                        <h4>1. કાયમી સાબિતી (Permanent Visibility)</h4>
+                        <p>પહેલાના સમયમાં જો બાળકે ભૂલ કરી હોય, તો સાંજ સુધીમાં ભુલાઈ જતી. પણ Gen-Z માટે, દરેક ભૂલનો ફોટો કે વિડીયો બની શકે છે જે કાયમી રહે છે. તેઓ સતત એ ડરમાં જીવે છે કે એક નાની ભૂલ તેમની ઈજ્જત કાયમ માટે બગાડી શકે છે.</p>
+                        
+                        <h4>2. સતત સરખામણી (Permanent Comparison)</h4>
+                        <p>સોશિયલ મીડિયા પર 24 કલાક "કોણ વધારે સુખી છે" તેની સ્પર્ધા ચાલે છે. તેઓ પોતાની સરખામણી આખી દુનિયા સાથે કરે છે. આનાથી તેમને સતત એવું લાગે છે કે "મારામાં કંઈક ખૂટે છે."</p>
+                        
+                        <h4>3. કાયમી અનિશ્ચિતતા (Uncertainty)</h4>
+                        <p>તેમણે નાનપણથી દુનિયામાં મહામારી અને મંદી જોઈ છે. તેમને હવે વડીલોની એ વાત પર ભરોસો નથી કે "સખત મહેનત કરશો તો જીવન સેટ થઈ જશે," કારણ કે તેમણે ભણેલા-ગણેલા લોકોને પણ નોકરી માટે વલખાં મારતા જોયા છે.</p>
+                    </div>
+
+                    <p><strong>પરિણામ:</strong> Gen-Z એ સ્વ-બચાવ માટે એક ટેવ પાડી લીધી છે: <em>લોકો કંઈ કહે તે પહેલાં પોતે જ પોતાની ટીકા કરી લેવી.</em> જેને તમે "Attitude" કહો છો, તે હકીકતમાં તેમનો ડર છે.</p>
+                `
+            },
+            ch2: {
+                en: `
+                    <span class="chapter-label">Chapter 2</span>
+                    <h1>How Gen-Z Thinks</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1494451930944-8998635c2123?q=80&w=2071&auto=format&fit=crop" alt="Person looking out a rainy window thinking">
+                    </div>
+                    
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> Quick Summary</div>
+                        <p style="margin:0; font-size:0.9rem;">Overthinking is their "safety mechanism." They are afraid of permanent online judgment. They are not "too sensitive"; they are just emotionally aware and refuse to suppress their feelings like past generations did.</p>
+                    </div>
+
+                    <h3>Accusation: "Gen-Z overthinks everything."</h3>
+                    <p>Yes, they do. But understanding <em>why</em> changes everything. Overthinking is not a hobby for them; it is a <strong>safety habit</strong>. Their brains are constantly running "What-If" simulations because modern consequences are severe.</p>
+
+                    <div class="script-box">
+                        <h4>Example Scenario: Talking to a Teacher</h4>
+                        <p><strong>Parent says:</strong> "Just go talk to your teacher. Why are you scared?"</p>
+                        <p><strong>Gen-Z Mind calculates:</strong> "If I talk, the teacher might judge me. If she judges me, she might tell the class. If the class laughs, it will end up on Instagram. If it's on Instagram, my image is ruined forever."</p>
+                    </div>
+                    
+                    <p>Older generations think: <em>"This is unnecessary drama."</em><br>
+                    Gen-Z feels: <em>"This is survival."</em></p>
+
+                    <h3>Accusation: "They are too sensitive."</h3>
+                    <p>Gen-Z is often less tolerant of invalidation. Many grew up with the language of mental health and boundaries. Phrases like "Don't cry" or "Stop being dramatic" do not make them "tougher." Instead, it makes them feel unsafe with you, causing them to shut down and disconnect.</p>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 2</span>
+                    <h1>Gen-Z की सोच और मनोविज्ञान</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1494451930944-8998635c2123?q=80&w=2071&auto=format&fit=crop" alt="Person looking out a rainy window thinking">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> संक्षिप्त सार</div>
+                        <p style="margin:0; font-size:0.9rem;">ज्यादा सोचना (Overthinking) उनका "सुरक्षा कवच" है। वे ऑनलाइन दुनिया में जज किए जाने से डरते हैं। वे "बहुत नाजुक" नहीं हैं; वे बस अपनी भावनाओं को पुरानी पीढ़ियों की तरह दबाना नहीं चाहते।</p>
+                    </div>
+                    
+                    <h3>आरोप: "ये बच्चे बहुत ज्यादा सोचते हैं (Overthinking)।"</h3>
+                    <p>हाँ, यह सच है। लेकिन यह उनका शौक नहीं, उनकी <strong>सुरक्षा (Safety)</strong> की आदत है। डिजिटल दुनिया में एक गलत वाक्य उनकी छवि (Image) हमेशा के लिए खराब कर सकता है। इसलिए उनका दिमाग हर वक्त "अगर ऐसा हुआ तो क्या होगा?" (What-If) की गणना करता रहता है।</p>
+
+                    <div class="script-box">
+                        <h4>उदाहरण: टीचर से बात करना</h4>
+                        <p><strong>माता-पिता कहते हैं:</strong> "जाकर टीचर से बात करो, इसमें डरने की क्या बात है?"</p>
+                        <p><strong>Gen-Z का दिमाग सोचता है:</strong> "अगर मैंने बात की और उन्होंने मुझे जज किया? अगर उन्होंने पूरी क्लास को बता दिया? अगर किसी ने वीडियो बना लिया और इंस्टाग्राम पर डाल दिया? तो मेरी पूरी इमेज बर्बाद हो जाएगी।"</p>
+                    </div>
+                    
+                    <p>बड़ों को यह "नाटक" लगता है, लेकिन बच्चों के लिए यह एक वास्तविक डर है जो उन्हें जीने नहीं देता।</p>
+
+                    <h3>आरोप: "ये बहुत नाजुक (Sensitive) हैं।"</h3>
+                    <p>वे कमजोर नहीं हैं, वे <strong>भावुक रूप से जागरूक</strong> हैं। पुरानी पीढ़ियों ने अपनी भावनाओं को दबाया था, लेकिन यह पीढ़ी अपनी भावनाओं (जैसे डिप्रेशन, एंग्जायटी) को नाम देना जानती है। जब आप कहते हैं "रोना बंद करो" या "नाटक मत करो", तो वे मजबूत नहीं बनते, वे आपसे दूर हो जाते हैं और बातें छिपाने लगते हैं।</p>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 2</span>
+                    <h1>Gen-Z ની વિચારસરણી</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1494451930944-8998635c2123?q=80&w=2071&auto=format&fit=crop" alt="Person looking out a rainy window thinking">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> ટૂંકમાં સાર</div>
+                        <p style="margin:0; font-size:0.9rem;">વધારે વિચારવું (Overthinking) એ એમનું "સુરક્ષા કવચ" છે. તેઓ ઓનલાઈન દુનિયામાં ટીકા થવાથી ડરે છે. તેઓ "વધુ પડતા નાજુક" નથી; તેઓ બસ પોતાની લાગણીઓને દબાવી રાખવા માંગતા નથી.</p>
+                    </div>
+                    
+                    <h3>ફરિયાદ: "આ લોકો બહુ વધારે વિચારે છે (Overthinking)."</h3>
+                    <p>હા, કારણ કે વધારે વિચારવું એ એમનું <strong>સુરક્ષા કવચ</strong> છે. આજના જમાનામાં એક નાની ભૂલ પણ સોશિયલ મીડિયા પર કાયમી ડાઘ લગાડી શકે છે. એટલે તેઓ ડરના કારણે દરેક વસ્તુનું પરિણામ પહેલા વિચારે છે.</p>
+
+                    <div class="script-box">
+                        <h4>ઉદાહરણ: શિક્ષક સાથે વાત કરવી</h4>
+                        <p><strong>વાલી કહે છે:</strong> "એમાં શું ડરવાનું, જઈને વાત કરી લે."</p>
+                        <p><strong>Gen-Z નું મગજ વિચારે છે:</strong> "જો હું વાત કરીશ અને તે મારી મજાક ઉડાવશે તો? જો કોઈ ક્લાસમાં વિડીયો ઉતારી લેશે તો? તો મારી ઈમેજ કાયમ માટે ખરાબ થઈ જશે."</p>
+                    </div>
+                    
+                    <p>વડીલોને આ "ખોટું ટેન્શન" લાગે છે, પણ બાળકો માટે આ એક સાચો ડર છે.</p>
+
+                    <h3>ફરિયાદ: "તેઓ બહુ સેન્સિટિવ (નાજુક) છે."</h3>
+                    <p>તેઓ નબળા નથી, તેઓ <strong>લાગણીશીલ</strong> છે. પહેલાના સમયમાં લોકો દુઃખને દબાવી દેતા હતા, જ્યારે આ પેઢી દુઃખને વ્યક્ત કરે છે. જ્યારે તમે કહો છો કે "રડવાનું બંધ કર" કે "નાટક ન કર", ત્યારે તેઓ મજબૂત નથી બનતા, પણ તમારાથી દૂર થઈ જાય છે.</p>
+                `
+            },
+            ch3: {
+                en: `
+                    <span class="chapter-label">Chapter 3</span>
+                    <h1>Mental Health & Fatigue</h1>
+                    
+                    <h3>Why do they seem tired without doing physical work?</h3>
+                    <p>It is called <strong>Decision Fatigue</strong>. A Gen-Z individual makes hundreds of micro-decisions before breakfast: <em>Should I reply to this text? Is this emoji rude? Are my friends hanging out without me? Should I post this story? Comparing my body to online models.</em></p>
+                    <p>Their exhaustion is mental, not physical. The brain burns as much energy worrying as the body does running. When they say "I am tired," they mean "My brain is overloaded."</p>
+                    
+                    <h3>The "Trauma" Controversy</h3>
+                    <p>Elders often get annoyed when kids use heavy words like "Trauma" for small things. While sometimes overused, it shows a desire to <strong>Heal</strong> rather than just <strong>Endure</strong>. They are trying to break generational cycles of pain and silence. They want language for their pain.</p>
+
+                    <div class="highlight-box">
+                        <h4>Deep Dive: The "It's All in Your Head" Myth</h4>
+                        <p>Older generations often say: <em>"We had tough lives too, but we were strong. You have everything, why are you sad?"</em></p>
+                        <p>This is the biggest gap. Gen-Z is not suffering from lack of food or shelter; they are suffering from <strong>Information Overload</strong> and <strong>Biological Stress</strong>. They can't "just be strong" because mental health issues are real medical conditions, not a choice of attitude.</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>Common Battles Gen-Z Fights Silently:</h4>
+                        <ul style="margin-top:10px;">
+                            <li><strong>Anxiety:</strong> Not just "nervousness," but a physical feeling of panic, chest pain, and inability to breathe. It feels like a heart attack waiting to happen.</li>
+                            <li><strong>Depression:</strong> Not just "sadness," but a feeling of numbness, where even getting out of bed feels like climbing a mountain. It’s a chemical imbalance, not a mood swing.</li>
+                            <li><strong>Overthinking Loops:</strong> The brain gets stuck on one negative thought for hours, ruining sleep.</li>
+                            <li><strong>Body Dysmorphia:</strong> Hating their own face/body because they compare it to edited Instagram filters.</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>The Secret Life of Gen-Z</h3>
+                    <div class="secret-box">
+                        <h4><i class="fa-solid fa-user-secret"></i> Why they don't tell you:</h4>
+                        <p>Gen-Z often cries in the shower or late at night so parents don't see. Why? Because they are afraid of hearing: <em>"It's all in your head," "Do Yoga,"</em> or <em>"Stop using the phone."</em> They hide their pain to avoid being dismissed. They don't need a lecture; they need a safe space to be vulnerable.</p>
+                    </div>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 3</span>
+                    <h1>मानसिक स्वास्थ्य और थकान</h1>
+                    
+                    <h3>वे बिना शारीरिक काम किए थके हुए क्यों लगते हैं?</h3>
+                    <p>इसे <strong>निर्णय की थकान (Decision Fatigue)</strong> कहते हैं। एक Gen-Z बच्चा नाश्ते से पहले ही सैकड़ों छोटे निर्णय ले लेता है: <em>क्या मुझे रिप्लाई करना चाहिए? क्या यह इमोजी गलत लगेगा? क्या मेरे दोस्त मेरे बिना मजे कर रहे हैं? क्या मैं सुंदर दिख रहा हूँ?</em></p>
+                    <p>उनका दिमाग लगातार दौड़ रहा है। चिंता करने में उतनी ही ऊर्जा खर्च होती है जितनी दौड़ने में। जब वे कहते हैं "मैं थक गया हूँ," तो उनका मतलब होता है "मेरा दिमाग अब और लोड नहीं ले सकता।"</p>
+                    
+                    <h3>"ट्रॉमा" शब्द का विवाद</h3>
+                    <p>बड़ों को गुस्सा आता है जब बच्चे छोटी बातों को भी "ट्रॉमा" (गहरा सदमा) कहते हैं। यह सच है कि वे कभी-कभी इस शब्द का ज्यादा इस्तेमाल करते हैं, लेकिन इसका गहरा अर्थ यह है कि वे <strong>दर्द को चुपचाप सहना नहीं, बल्कि उसे ठीक करना चाहते हैं</strong>। वे चाहते हैं कि जो मानसिक तनाव उनके माता-पिता ने सहा, वह उन्हें न सहना पड़े।</p>
+
+                    <div class="highlight-box">
+                        <h4>गहराई से समझें: "यह सब तुम्हारे दिमाग का वहम है"</h4>
+                        <p>पुरानी पीढ़ी अक्सर कहती है: <em>"हमने भी मुश्किलें देखी हैं, पर हम मजबूत थे। तुम्हारे पास सब कुछ है, फिर भी तुम दुखी क्यों हो?"</em></p>
+                        <p>यही सबसे बड़ी गलतफहमी है। Gen-Z को रोटी-कपड़े की कमी नहीं है, उन्हें <strong>सूचना के बोझ (Information Overload)</strong> की बीमारी है। वे "सिर्फ मजबूत" नहीं बन सकते क्योंकि मानसिक बीमारियां (Mental Health Issues) असली बीमारियां हैं, कोई नाटक नहीं।</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>वो जंग जो Gen-Z चुपचाप लड़ता है:</h4>
+                        <ul style="margin-top:10px;">
+                            <li><strong>एंग्जायटी (Anxiety):</strong> यह सिर्फ घबराहट नहीं है। इसमें सांस फूलना, छाती में दर्द और पैनिक अटैक आता है। यह दिल का दौरा पड़ने जैसा महसूस होता है।</li>
+                            <li><strong>डिप्रेशन (Depression):</strong> यह सिर्फ उदासी नहीं है। यह एक ऐसा अहसास है जहां बिस्तर से उठना भी पहाड़ चढ़ने जैसा लगता है। यह एक रसायनिक असंतुलन (Chemical Imbalance) है।</li>
+                            <li><strong>ओवरथिंकिंग (Overthinking):</strong> दिमाग का एक ही नकारात्मक विचार पर घंटों तक अटक जाना, जिससे नींद नहीं आती।</li>
+                            <li><strong>बॉडी इमेज इश्यूज:</strong> अपने ही चेहरे और शरीर से नफरत करना क्योंकि वे इसकी तुलना इंस्टाग्राम के फिल्टर वाली फोटो से करते हैं।</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Gen-Z का गुप्त जीवन</h3>
+                    <div class="secret-box">
+                        <h4><i class="fa-solid fa-user-secret"></i> वे आपको क्यों नहीं बताते?</h4>
+                        <p>Gen-Z अक्सर बाथरूम में या रात को चुपके से रोता है ताकि माता-पिता न देख लें। क्यों? क्योंकि उन्हें डर है कि आप कहेंगे: <em>"यह सब तुम्हारे दिमाग का वहम है," "योग करो सब ठीक हो जाएगा,"</em> या <em>"फोन छोड़ दो।"</em> वे अपनी बात खारिज (Dismiss) किए जाने के डर से दर्द छुपाते हैं। उन्हें भाषण नहीं, बस एक सुरक्षित जगह चाहिए।</p>
+                    </div>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 3</span>
+                    <h1>માનસિક સ્વાસ્થ્ય અને મૌન</h1>
+                    
+                    <h3>કામ કર્યા વગર તેઓ થાકેલા કેમ લાગે છે?</h3>
+                    <p>આને <strong>માનસિક થાક</strong> કહેવાય છે. તેમનું મગજ સતત સોશિયલ મીડિયા, મેસેજ, પોતાની દેખાવ અને ભવિષ્યની ચિંતામાં વ્યસ્ત રહે છે. જ્યારે મગજ થાકેલું હોય, ત્યારે શરીર પણ થાકી જાય છે. તેમનો થાક ખોટો નથી, તે અદ્રશ્ય છે.</p>
+                    
+                    <h3>દુઃખ વ્યક્ત કરવાની રીત</h3>
+                    <p>ઘણીવાર વડીલો કહે છે કે "અમે તો આનાથી વધુ તકલીફ જોઈ છે, અમે તો કઈ નથી બોલ્યા." પણ Gen-Z માને છે કે દુઃખ સહન કરવું કોઈ બહાદુરી નથી. તેઓ દુઃખને ઓળખીને તેનો ઇલાજ કરવા માંગે છે. તેઓ ઈચ્છે છે કે તેમનું જીવન માનસિક રીતે શાંતિપૂર્ણ રહે.</p>
+
+                    <div class="highlight-box">
+                        <h4>ઊંડાણપૂર્વક: "આ તો ખાલી વહેમ છે"</h4>
+                        <p>વડીલો ઘણીવાર કહે છે: <em>"અમે પણ દુઃખ જોયા છે, પણ અમે મજબૂત હતા. તમારી પાસે બધું છે તો પણ તમે દુઃખી કેમ છો?"</em></p>
+                        <p>આ જ સૌથી મોટો ગેપ છે. Gen-Z ને ખાવા-પીવાની તકલીફ નથી, તેમને <strong>વિચારોના બોજ</strong> ની બીમારી છે. માનસિક બીમારી એ શારીરિક બીમારી જેટલી જ સાચી છે, તે કોઈ નાટક નથી.</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>તેઓ કઈ લડાઈ ચૂપચાપ લડે છે?</h4>
+                        <ul style="margin-top:10px;">
+                            <li><strong>એન્ઝાયટી (Anxiety):</strong> આ ખાલી ગભરાટ નથી. આમાં શ્વાસ રૂંધાવો અને અચાનક ડર લાગવો જેવી શારીરિક તકલીફ થાય છે.</li>
+                            <li><strong>ડિપ્રેશન (Depression):</strong> આ ખાલી ઉદાસી નથી. આ એવી હાલત છે જેમાં પથારીમાંથી ઉભું થવું પણ અશક્ય લાગે છે.</li>
+                            <li><strong>વધુ પડતા વિચારો:</strong> મગજ એક જ ખરાબ વિચાર પર કલાકો સુધી અટકી જાય છે, જેના કારણે ઊંઘ નથી આવતી.</li>
+                            <li><strong>દેખાવની ચિંતા:</strong> ઇન્સ્ટાગ્રામના ફિલ્ટર જોઈને તેઓ પોતાના અસલી ચહેરા અને શરીરને ધિક્કારવા લાગે છે.</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>છુપાયેલું સત્ય</h3>
+                    <div class="secret-box">
+                        <h4><i class="fa-solid fa-user-secret"></i> તેઓ તમને કેમ નથી કહેતા?</h4>
+                        <p>Gen-Z ઘણીવાર બાથરૂમમાં કે રાત્રે ચૂપચાપ રડે છે. કારણ? તેમને ડર છે કે તમે કહેશો: <em>"આ બધો તારા મગજ નો વહેમ છે," "ફોન મુકી દે એટલે બધું મટી જશે."</em> તેઓ પોતાની લાગણીઓની મજાક ઉડાવવાના ડરથી ચૂપ રહે છે. તેમને સલાહની નહીં, સાથની જરૂર છે.</p>
+                    </div>
+                `
+            },
+            ch4: {
+                en: `
+                    <span class="chapter-label">Chapter 4</span>
+                    <h1>Fashion, Body & Identity</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2000&auto=format&fit=crop" alt="Young woman wearing oversized comfy clothes">
+                    </div>
+                    
+                    <h3>Big Misunderstanding: "They dress for attention."</h3>
+                    <p><strong>False.</strong> For Gen-Z, clothing is often for protection or "self-ownership."</p>
+
+                    <div class="highlight-box">
+                        <h4>1. Oversized Clothes (Hoodies/Baggy Pants)</h4>
+                        <p>Many Gen-Z girls wear very loose clothes not because it's "cool," but because public spaces feel unsafe. Baggy clothes act as <strong>Armor</strong>. It is a way to hide their body shape so they are not stared at or judged by strangers.</p>
+                        
+                        <h4>2. Men's Grooming & Fashion</h4>
+                        <p>Gen-Z men experimenting with skincare, jewelry, or soft colors is not a sign of weakness. It is a sign that masculinity is becoming less rigid. They feel allowed to care for themselves.</p>
+                    </div>
+
+                    <h3>The Conflict Script</h3>
+                    <p><strong>Parent thinks:</strong> "What will society say about these clothes?" (Parent is trying to protect the child from society's judgment).</p>
+                    <p><strong>Child feels:</strong> "You don't trust me or my choices." (Child feels controlled).</p>
+                    <p><strong>Solution:</strong> Instead of judging the cloth, explain your safety concern specifically.</p>
+
+                    <div class="highlight-box">
+                        <h4>Feminism: The Real Meaning vs. Society's View</h4>
+                        <p><strong>Society thinks:</strong> Feminism means hating men, wearing short clothes, and drinking alcohol.</p>
+                        <p><strong>Gen-Z Reality:</strong> Feminism is about <strong>CHOICE</strong>. If a woman <em>chooses</em> to be a housewife, that is feminism. If she <em>chooses</em> to be a CEO, that is feminism. Gen-Z men are becoming great allies; they often fight with their own parents to let their sisters or wives wear what they want. They value consent and equality over control.</p>
+                    </div>
+
+                    <h3>Hypocrisy & Indian Taboos</h3>
+                    <p>Gen-Z hates the double standards in Indian households. 
+                    <br><em>Example:</em> A father can roam shirtless at home, but a daughter is scolded for wearing shorts. 
+                    <br>Gen-Z chooses <strong>Comfort over "Sanskar"</strong> (when Sanskar is just a tool for control). They prioritize their mental peace over following rules that don't make logical sense. They will choose to wear what makes them comfortable, even if it defies tradition.</p>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 4</span>
+                    <h1>फैशन और कपड़े</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2000&auto=format&fit=crop" alt="Young woman wearing oversized comfy clothes">
+                    </div>
+                    
+                    <h3>गलतफहमी: "ये ध्यान खींचने के लिए ऐसे कपड़े पहनते हैं।"</h3>
+                    <p><strong>गलत।</strong> Gen-Z के लिए फैशन अक्सर खुद को बचाने या खुद को व्यक्त करने का तरीका है।</p>
+
+                    <div class="highlight-box">
+                        <h4>1. ढीले कपड़े (Baggy Clothes/Hoodies)</h4>
+                        <p>लड़कियां अक्सर बहुत ढीले कपड़े पहनती हैं। यह सिर्फ फैशन नहीं है, यह एक <strong>ढाल (Armor)</strong> है। वे चाहती हैं कि बाहर के लोग उनके शरीर को घूर न सकें। ढीले कपड़ों में वे सुरक्षित महसूस करती हैं.</p>
+                        
+                        <h4>2. लड़कों का फैशन</h4>
+                        <p>अगर लड़के ज्वैलरी पहनते हैं, पिंक कलर पहनते हैं या स्किनकेयर करते हैं, तो यह कमजोरी नहीं है। इसका मतलब है कि अब लड़कों को भी खुद का ख्याल रखने और इंसान दिखने की आजादी है।</p>
+                    </div>
+
+                    <h3>झगड़े की असली वजह</h3>
+                    <p><strong>माता-पिता सोचते हैं:</strong> "समाज क्या कहेगा?" (वे बच्चे को समाज के ताानों से बचाना चाहते हैं)।</p>
+                    <p><strong>बच्चा महसूस करता है:</strong> "आपको मुझ पर भरोसा नहीं है।" (उन्हें लगता है कि उनकी आजादी छीनी जा रही है)।</p>
+
+                    <div class="highlight-box">
+                        <h4>नारीवाद (Feminism): असली मतलब</h4>
+                        <p><strong>समाज सोचता है:</strong> फेमिनिज्म का मतलब पुरुषों से नफरत करना और छोटे कपड़े पहनना है।</p>
+                        <p><strong>Gen-Z की हकीकत:</strong> फेमिनिज्म का मतलब है <strong>चुनाव (Choice)</strong>। अगर कोई लड़की अपनी मर्जी से गृहिणी (Housewife) बनना चाहती है, तो वह भी फेमिनिज्म है। Gen-Z लड़के अब अपनी बहनों और पत्नियों के कपड़ों के लिए अपने माता-पिता से भी लड़ने को तैयार हैं क्योंकि वे उनकी आजादी का सम्मान करते हैं।</p>
+                    </div>
+
+                    <h3>पाखंड (Hypocrisy) और दोहरे मापदंड</h3>
+                    <p>Gen-Z को भारतीय घरों के दोहरे नियमों से नफरत है।
+                    <br><em>उदाहरण:</em> पिताजी घर में बिना शर्ट के घूम सकते हैं, लेकिन बेटी अगर शॉर्ट्स पहन ले तो हंगामा हो जाता है।
+                    <br>Gen-Z ऐसे "संस्कारों" के खिलाफ है जो सिर्फ कंट्रोल करने के लिए बनाए गए हैं। वे बेतुके नियमों को मानने के बजाय अपनी मानसिक शांति को चुनते हैं।</p>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 4</span>
+                    <h1>ફેશન અને ઓળખ</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=2000&auto=format&fit=crop" alt="Young woman wearing oversized comfy clothes">
+                    </div>
+                    
+                    <h3>ગેરસમજ: "આ લોકો દેખાડા માટે આવા કપડાં પહેરે છે."</h3>
+                    <p><strong>ખોટું.</strong> તેઓ દેખાડા માટે નહીં, પણ પોતાની મરજી મુજબ અને સુરક્ષા માટે કપડાં પહેરે છે.</p>
+
+                    <div class="highlight-box">
+                        <h4>1. ઢીલા કપડાં (Baggy Clothes)</h4>
+                        <p>ઘણી છોકરીઓ ઢીલા અને મોટા કપડાં એટલે પહેરે છે કે જેથી રસ્તા પર લોકો તેમને ખરાબ નજરે ન જુએ. આ કપડાં તેમને સુરક્ષિત લાગણી આપે છે.</p>
+                        
+                        <h4>2. છોકરાઓની ફેશન</h4>
+                        <p>છોકરાઓ તૈયાર થાય, ક્રીમ લગાવે કે દાગીના પહેરે તો તે સારી વાત છે. તે આધુનિક જમાનાની નિશાની છે, નબળાઈની નહીં. પુરુષો પણ હવે પોતાનું ધ્યાન રાખી શકે છે.</p>
+                    </div>
+
+                    <h3>વિચારભેદ</h3>
+                    <p><strong>વાલી વિચારે છે:</strong> "સમાજ શું કહેશે?" (તેઓ બાળકને સમાજની વાતોથી બચાવવા માંગે છે).</p>
+                    <p><strong>બાળક વિચારે છે:</strong> "તમને મારા પર વિશ્વાસ નથી."</p>
+
+                    <div class="highlight-box">
+                        <h4>ફેમિનિઝમ (Feminism) એટલે શું?</h4>
+                        <p><strong>સમાજની ભૂલ:</strong> સમાજ માને છે કે ફેમિનિઝમ એટલે પુરુષોનો વિરોધ કરવો.</p>
+                        <p><strong>હકીકત:</strong> ફેમિનિઝમ એટલે <strong>પસંદગીનો હક</strong>. સ્ત્રી જે ઈચ્છે તે કરી શકે - પછી તે ઘરકામ હોય કે નોકરી. Gen-Z છોકરાઓ હવે તેમની બહેન કે પત્નીના કપડાં માટે પરિવાર સાથે લડવા પણ તૈયાર હોય છે, કારણ કે તેઓ સ્ત્રીની પસંદગીનું સન્માન કરે છે.</p>
+                    </div>
+
+                    <h3>ઘરના બેવડા નિયમો</h3>
+                    <p>Gen-Z ને ઘરમાં ચાલતા ભેદભાવ ગમતા નથી. પપ્પા ઘરમાં ગંજી પહેરીને ફરે તો ચાલે, પણ દીકરી ટૂંકા કપડાં પહેરે તો "સંસ્કાર" યાદ આવે છે. Gen-Z આવા ખોટા નિયમો પાળવાને બદલે પોતાની માનસિક શાંતિ પસંદ કરે છે.</p>
+                `
+            },
+            ch5: {
+                en: `
+                    <span class="chapter-label">Chapter 5</span>
+                    <h1>Dating & Relationships Dictionary</h1>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> Quick Summary</div>
+                        <p style="margin:0; font-size:0.9rem;">Gen-Z wants love but is terrified of commitment and heartbreak. They use vague terms (like Situationship) to avoid responsibility and protect themselves from pain.</p>
+                    </div>
+                    
+                    <p>Gen-Z dating is confusing because it fights two opposite urges: <strong>"I want closeness"</strong> vs <strong>"I am terrified of getting hurt."</strong> Here are the terms explained clearly for parents.</p>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">1. Situationship</span>
+                            <span class="term-type">Status: Confusing</span>
+                        </div>
+                        <p><strong>Meaning:</strong> A relationship with no label. More than friends, less than a couple.</p>
+                        <p><strong>Why?</strong> Fear of commitment. They think, "If we don't name it, a breakup won't hurt as much." (This is a false belief).</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">2. Ghosting</span>
+                            <span class="term-type">Status: Painful</span>
+                        </div>
+                        <p><strong>Meaning:</strong> Disappearing without a goodbye. Stopping all replies suddenly.</p>
+                        <p><strong>Why?</strong> Lack of conflict skills. They find it easier to vanish than to have a difficult conversation saying "I am not interested."</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">3. Breadcrumbing</span>
+                            <span class="term-type">Status: Manipulative</span>
+                        </div>
+                        <p><strong>Meaning:</strong> Giving small "crumbs" of attention (a like, a random "hi") just to keep the other person interested, but never actually meeting or committing.</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">4. Love Bombing</span>
+                            <span class="term-type">Status: Dangerous</span>
+                        </div>
+                        <p><strong>Meaning:</strong> Overwhelming someone with extreme love and gifts in the first week to gain control, then suddenly pulling away.</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">5. Benching</span>
+                            <span class="term-type">Status: Selfish</span>
+                        </div>
+                        <p><strong>Meaning:</strong> Keeping someone as a "backup option" (on the bench) while looking for someone better.</p>
+                    </div>
+
+                    <h3>The Philosophy of Modern Love</h3>
+                    <p><strong>The Good:</strong> Gen-Z partners are extremely caring. They want deep emotional connection and equality. They don't want a "servant" or a "provider"; they want a <em>Partner</em>. They value transparency and hate being fake.</p>
+                    <p><strong>The Bad:</strong> Trust issues are high. Terms like <em>Situationship</em> exist because they are terrified of heartbreak. Divorce rates are higher, but Gen-Z sees this as a positive: it means people aren't stuck in abusive marriages anymore.</p>
+
+                    <h3>The Truth About Divorce & Live-in</h3>
+                    <p>Older generations see Divorce as a failure/sin. Gen-Z sees Divorce as a <strong>Correction</strong>. They believe:</p>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li>❌ "Adjust and suffer for 50 years to keep the family intact."</li>
+                        <li>✅ "Leave, heal, and find happiness again. Life is too short to be miserable."</li>
+                    </ul>
+                    <p><strong>Live-in Relationships:</strong> It's not about sex; it's about <em>Compatibility Testing</em>. Why gamble your whole life on an arranged marriage with a stranger when you can check if you can actually live together first? It is a practical decision to avoid future divorce.</p>
+
+                    <div class="highlight-box">
+                        <h4>A Warning for Parents</h4>
+                        <p>If you try to control Gen-Z's dating life, they will simply hide it. But if you accept it, they will introduce their partners to you. Also, remember: <strong>Gen Alpha (the next generation)</strong> will be even more modern. So, accepting Gen-Z's culture now will save you from future shock. Peace in the house depends on acceptance.</p>
+                    </div>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 5</span>
+                    <h1>डेटिंग और रिश्तों की डिक्शनरी</h1>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> संक्षिप्त सार</div>
+                        <p style="margin:0; font-size:0.9rem;">Gen-Z प्यार चाहता है लेकिन कमिटमेंट और दिल टूटने से डरता है। वे जिम्मेदारी से बचने और दर्द से खुद को बचाने के लिए "Situationship" जैसे अस्पष्ट शब्दों का इस्तेमाल करते हैं।</p>
+                    </div>
+
+                    <p>Gen-Z की लव लाइफ उलझी हुई है क्योंकि वे प्यार चाहते हैं, लेकिन चोट (Heartbreak) लगने से बहुत डरते हैं। माता-पिता के लिए इन शब्दों को समझना जरुरी है।</p>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">1. Situationship (परिस्थितिजन्य रिश्ता)</span>
+                        </div>
+                        <p><strong>अर्थ:</strong> दोस्ती से ज्यादा, लेकिन प्रेमी से कम। इसका कोई नाम नहीं होता।</p>
+                        <p><strong>क्यों?</strong> जिम्मेदारी का डर। वे सोचते हैं, "अगर हम इसे 'रिश्ता' नहीं कहेंगे, तो अलग होने पर दुख कम होगा।" (यह सोच गलत है, पर आम है)।</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">2. Ghosting (गायब होना)</span>
+                        </div>
+                        <p><strong>अर्थ:</strong> बिना कुछ कहे अचानक बातचीत बंद कर देना।</p>
+                        <p><strong>क्यों?</strong> वे "ना" कहने की हिम्मत नहीं जुटा पाते। उन्हें लगता है कि बहस करने से अच्छा है कि चुपचाप गायब हो जाएं।</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">3. Breadcrumbing (टुकड़े डालना)</span>
+                        </div>
+                        <p><strong>अर्थ:</strong> जैसे पक्षी को दाना डालते हैं, वैसे ही थोड़ी-थोड़ी अटेंशन देना (जैसे कभी एक मैसेज कर दिया) ताकि सामने वाला उम्मीद में रहे, लेकिन कभी गंभीरता से रिश्ता न निभाना।</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">4. Love Bombing (प्यार की बौछार)</span>
+                        </div>
+                        <p><strong>अर्थ:</strong> रिश्ते की शुरुआत में ही बहुत ज्यादा प्यार और उपहार देना ताकि सामने वाला पूरी तरह वश में हो जाए, और फिर अचानक बदल जाना। यह खतरनाक हो सकता है।</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">5. Benching (बैकअप में रखना)</span>
+                        </div>
+                        <p><strong>अर्थ:</strong> किसी व्यक्ति को "बैकअप" के तौर पर रखना कि "अगर कोई और नहीं मिला, तो यह तो है ही।"</p>
+                    </div>
+
+                    <h3>सच्चाई: तलाक और लिव-इन (Live-in)</h3>
+                    <p><strong>अच्छाई:</strong> Gen-Z पार्टनर बहुत परवाह करने वाले होते हैं। उन्हें बराबरी और भावनात्मक जुड़ाव चाहिए। वे नकली बनकर रहना पसंद नहीं करते।</p>
+                    <p>पुरानी पीढ़ी तलाक को पाप मानती है। Gen-Z तलाक को एक <strong>सुधार (Correction)</strong> मानता है। उनका मानना है:</p>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li>❌ "परिवार की इज्जत के लिए 50 साल तक दुख सहते रहो।"</li>
+                        <li>✅ "अलग हो जाओ और खुश रहो। जिंदगी बर्बाद करने के लिए बहुत छोटी है।"</li>
+                    </ul>
+                    <p><strong>लिव-इन रिलेशनशिप:</strong> यह सिर्फ मजे के लिए नहीं है, यह एक <strong>टेस्ट</strong> है। किसी अजनबी से शादी करके पूरी जिंदगी का जुआ खेलने से बेहतर है कि पहले साथ रहकर देख लिया जाए कि क्या हम निभा सकते हैं।</p>
+
+                    <div class="highlight-box">
+                        <h4>माता-पिता के लिए चेतावनी</h4>
+                        <p>अगर आप Gen-Z को रोकेंगे, तो वे आपसे छिपाकर करेंगे। अगर आप स्वीकार करेंगे, तो वे आपको अपने पार्टनर से मिलवाएंगे। याद रखें, अगली पीढ़ी (Gen Alpha) और भी आधुनिक होगी। इसलिए, जितनी जल्दी आप बदलाव को स्वीकार करेंगे, घर में उतना कम कलेश होगा।</p>
+                    </div>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 5</span>
+                    <h1>ડેટિંગ અને સંબંધોની ડિક્શનરી</h1>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> ટૂંકમાં સાર</div>
+                        <p style="margin:0; font-size:0.9rem;">Gen-Z ને પ્રેમ જોઈએ છે પણ દગો મળવાથી ડરે છે. તેઓ જવાબદારીથી બચવા અને દુઃખથી રક્ષણ મેળવવા માટે "Situationship" જેવા અસ્પષ્ટ શબ્દોનો ઉપયોગ કરે છે.</p>
+                    </div>
+
+                    <p>Gen-Z પ્રેમ ઈચ્છે છે, પણ દગો મળવાથી ડરે છે. તેથી તેઓ સંબંધોને નામ આપતા ગભરાય છે. વાલીઓ માટે આ શબ્દો સમજવા જરૂરી છે.</p>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">1. Situationship (નામ વગરનો સંબંધ)</span>
+                        </div>
+                        <p><strong>અર્થ:</strong> મિત્રતાથી વધુ, પણ પ્રેમથી ઓછું. કોઈ સ્પષ્ટતા નહીં.</p>
+                        <p><strong>કારણ:</strong> જવાબદારીનો ડર. તેઓ માને છે કે જો સંબંધનું નામ નહિ હોય, તો છૂટા પડતી વખતે દુઃખ ઓછું થશે.</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">2. Ghosting (ગાયબ થઈ જવું)</span>
+                        </div>
+                        <p><strong>અર્થ:</strong> અચાનક કોઈ કારણ આપ્યા વગર વાત બંધ કરી દેવી.</p>
+                        <p><strong>કારણ:</strong> તેમને કોઈને "ના" પાડતા આવડતું નથી, અથવા તેઓ ઝઘડાથી બચવા માંગે છે.</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">3. Breadcrumbing (આશા આપવી)</span>
+                        </div>
+                        <p><strong>અર્થ:</strong> જેમ કબૂતરને દાણા નાખીએ તેમ થોડી થોડી વાત કરવી જેથી સામે વાળો વ્યક્તિ આશામાં લટકી રહે, પણ ક્યારેય સંબંધમાં ગંભીર ન થવું.</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">4. Love Bombing (પ્રેમનો દેખાડો)</span>
+                        </div>
+                        <p><strong>અર્થ:</strong> શરૂઆતમાં અતિશય પ્રેમ અને ગિફ્ટ આપવી જેથી સામે વાળી વ્યક્તિ અંજાઈ જાય, અને પછી અચાનક બદલાઈ જવું.</p>
+                    </div>
+
+                    <div class="term-card">
+                        <div class="term-header">
+                            <span class="term-name">5. Benching (વિકલ્પ તરીકે રાખવું)</span>
+                        </div>
+                        <p><strong>અર્થ:</strong> કોઈ વ્યક્તિને "વધારાના વિકલ્પ" (Backup) તરીકે સાચવી રાખવી, કે જો બીજું કોઈ ન મળે તો આ વ્યક્તિ કામ આવે.</p>
+                    </div>
+
+                    <h3>છૂટાછેડા અને લિવ-ઈન સંબંધો</h3>
+                    <p><strong>સારી બાજુ:</strong> Gen-Z ખુબ પ્રેમાળ હોય છે. તેમને સમાનતા જોઈએ છે. તેઓ દેખાડો કરવાનું પસંદ નથી કરતા.</p>
+                    <p>વડીલો માટે છૂટાછેડા એ શરમ છે, પણ Gen-Z માટે એ એક <strong>નવી શરૂઆત</strong> છે. તેઓ માને છે કે:</p>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li>❌ "સમાજ ખાતર આખી જિંદગી દુઃખ સહન કરવું."</li>
+                        <li>✅ "છૂટા પડીને શાંતિથી જીવવું. જિંદગી રડવા માટે નથી."</li>
+                    </ul>
+                    <p><strong>લિવ-ઈન રિલેશનશિપ:</strong> આ કોઈ અય્યાશી નથી, પણ <strong>સમજદારી</strong> છે. અજાણી વ્યક્તિ સાથે આખું જીવન વિતાવવાનું નક્કી કરતા પહેલા, સાથે રહીને તપાસવું વધુ સારું છે કે સ્વભાવ મળે છે કે નહીં.</p>
+
+                    <div class="highlight-box">
+                        <h4>વાલીઓ માટે ચેતવણી</h4>
+                        <p>જો તમે Gen-Z પર પ્રતિબંધ મુકશો, તો તેઓ જુઠ્ઠું બોલીને બધું કરશે. જો તમે સ્વીકારશો, તો તેઓ તમારી સાથે સાચું બોલશે. આવનારી પેઢી (Gen Alpha) હજુ વધુ મોડર્ન હશે, એટલે અત્યારથી જ પરિવર્તન સ્વીકારી લેવું એમાં જ શાંતિ છે.</p>
+                    </div>
+                `
+            },
+            ch6: {
+                en: `
+                    <span class="chapter-label">Chapter 6</span>
+                    <h1>Culture, Taboos & "Log Kya Kahenge"</h1>
+                    
+                    <h3>The Big Conflict</h3>
+                    <p>Gen-Z grew up observing their parents deeply. They saw their mothers suffering in silence to keep the family happy. They saw their fathers stressed about "Society's Opinion." Observing this pain, Gen-Z decided: <strong>"We will not live like this."</strong></p>
+
+                    <div class="highlight-box">
+                        <p><strong>Past (Elders):</strong> "Adjust quietly." Sacrifice personal happiness for "Family Reputation."</p>
+                        <p><strong>Present (Gen-Z):</strong> "Why?" They ask, "Why should I respect a relative who disrespects me? Why does society matter if they don't pay my bills?"</p>
+                    </div>
+
+                    <h3>Are they Anti-Culture?</h3>
+                    <p><strong>No.</strong> They love festivals, good food, and family love. But they are <strong>Anti-Hypocrisy</strong>. They reject traditions that demand silence in the face of injustice. They don't care what society thinks because they realized society doesn't help in real crises.</p>
+
+                    <h3>The Great Indian Hypocrisy (Deep Dive)</h3>
+                    <p>Gen-Z observes everything. They see parents claiming, <em>"We don't care about society,"</em> but then forcing children to act a certain way just because <em>"Relatives will talk."</em></p>
+                    <p>Gen-Z calls this out. They ask: <strong>"Why does Uncle Sharma's opinion matter more than my happiness?"</strong></p>
+
+                    <div class="highlight-box">
+                        <h4>Relatives & Body Shaming</h4>
+                        <p>In Indian culture, it's often normalized for relatives to comment on weight, skin color, or salary immediately upon entering the house.
+                        <br><strong>Reaction:</strong> When Gen-Z snaps back or ignores them, parents call it "Disrespect."
+                        <br><strong>Truth:</strong> Gen-Z is setting a <strong>Boundary</strong>. They believe respect is earned, not given automatically due to age.</p>
+                    </div>
+
+                    <h3>The Strategy: Ignore to Survive</h3>
+                    <p>Gen-Z has realized that society (neighbors, distant relatives) will never pay their bills or help in depression. So, they have adopted a policy of <strong>Aggressive Indifference</strong>.</p>
+                    <p>They are not fighting culture; they are fighting the toxic parts of it. The only solution for peace at home is for parents to stop being the "Agents of Society" inside the house and support their children against external judgment.</p>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 6</span>
+                    <h1>संस्कृति, समाज और "लोग क्या कहेंगे"</h1>
+                    
+                    <h3>सबसे बड़ा संघर्ष</h3>
+                    <p>Gen-Z ने बचपन से अपने माता-पिता को बहुत गौर से देखा है। उन्होंने देखा कि कैसे उनकी माँ ने परिवार की शांति के लिए चुपचाप दुख सहा। उन्होंने देखा कि पिता हमेशा "समाज क्या कहेगा" की चिंता में रहे। यह सब देखकर Gen-Z ने फैसला किया: <strong>"हम ऐसे नहीं जिएंगे।"</strong></p>
+
+                    <div class="highlight-box">
+                        <p><strong>पुरानी पीढ़ी:</strong> चुपचाप समझौता करती थी। "परिवार की इज्जत" के लिए अपनी खुशी का बलिदान देती थी।</p>
+                        <p><strong>Gen-Z (आज की पीढ़ी):</strong> सवाल पूछती है। "मैं उस रिश्तेदार का सम्मान क्यों करूं जो मेरी बेइज्जती करता है? समाज की परवाह क्यों करें जब वे हमारे बिल नहीं भरते?"</p>
+                    </div>
+
+                    <h3>क्या वे संस्कृति (Culture) के खिलाफ हैं?</h3>
+                    <p><strong>बिल्कुल नहीं।</strong> उन्हें त्यौहार, परिवार और परंपराएं पसंद हैं। लेकिन वे <strong>पाखंड (Hypocrisy)</strong> के खिलाफ हैं। वे उन परंपराओं को नहीं मानते जो उन्हें मानसिक रूप से चोट पहुंचाती हैं। वे समाज की परवाह इसलिए नहीं करते क्योंकि उन्हें समझ आ गया है कि मुसीबत में समाज मदद करने नहीं आता।</p>
+
+                    <h3>भारतीय समाज का पाखंड (Hypocrisy)</h3>
+                    <p>Gen-Z सब देखता है। वे देखते हैं कि माता-पिता कहते हैं, <em>"हमें समाज की परवाह नहीं,"</em> लेकिन फिर बच्चों को अपनी मर्जी से जीने नहीं देते सिर्फ इसलिए कि <em>"रिश्तेदार बातें बनाएंगे।"</em></p>
+                    <p>Gen-Z सीधा सवाल पूछता है: <strong>"शर्मा अंकल की राय मेरी खुशी से ज्यादा जरुरी क्यों है?"</strong></p>
+
+                    <div class="highlight-box">
+                        <h4>रिश्तेदार और ताने</h4>
+                        <p>हमारे समाज में यह आम बात है कि रिश्तेदार घर आते ही वजन, रंग या सैलरी पर कमेंट करते हैं।
+                        <br><strong>प्रतिक्रिया:</strong> जब Gen-Z जवाब देता है, तो इसे "बदतमीजी" कहा जाता है।
+                        <br><strong>सच्चाई:</strong> वे बदतमीजी नहीं कर रहे, वे अपनी <strong>सीमा (Boundary)</strong> बना रहे हैं। वे मानते हैं कि इज्जत उम्र से नहीं, व्यवहार से मिलती है।</p>
+                    </div>
+
+                    <h3>रणनीति: इग्नोर करो और खुश रहो</h3>
+                    <p>Gen-Z को समझ आ गया है कि समाज (पड़ोसी, दूर के रिश्तेदार) न तो उनके बिल भरेगा और न ही डिप्रेशन में मदद करेगा। इसलिए उन्होंने समाज को पूरी तरह <strong>अनदेखा (Ignore)</strong> करना शुरू कर दिया है। घर में शांति तभी आएगी जब माता-पिता घर के अंदर "समाज के एजेंट" बनना बंद कर दें और अपने बच्चों का साथ दें।</p>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 6</span>
+                    <h1>સંસ્કૃતિ અને "લોકો શું કહેશે"</h1>
+                    
+                    <h3>વિચારધારાનો સંઘર્ષ</h3>
+                    <p>Gen-Z એ બાળપણથી જોયું છે કે ઈજ્જત સાચવવા માટે તેમના માતા-પિતાએ કેટલું સહન કર્યું છે. આ જોઈને તેમણે નક્કી કર્યું છે કે: <strong>"અમારે આવી રીતે નથી જીવવું."</strong></p>
+
+                    <div class="highlight-box">
+                        <p><strong>વડીલો:</strong> સમાજ માટે પોતાની ખુશી જતી કરતા હતા. "ચલાવી લેવું" એ જીવન હતું.</p>
+                        <p><strong>Gen-Z:</strong> તેઓ પૂછે છે, "જે સગાઓ વર્ષમાં એક વાર મળે છે અને આપણી નિંદા કરે છે, તેમના માટે હું મારી જિંદગી શું કામ બદલું?"</p>
+                    </div>
+
+                    <h3>શું તેઓ સંસ્કૃતિ વિરોધી છે?</h3>
+                    <p><strong>ના.</strong> તેમને દિવાળી, ગરબા અને પરિવાર ગમે છે. પણ તેમને <strong>ખોટા દેખાડા</strong> પસંદ નથી. જે રીત-રિવાજો માનસિક ત્રાસ આપે, તેનો તેઓ વિરોધ કરે છે. તેઓ માને છે કે ઇજ્જત માંગવાથી નહિ, પણ સારા વ્યવહારથી મળે છે.</p>
+
+                    <h3>સમાજનો દેખાડો</h3>
+                    <p>Gen-Z બધું જુએ છે. વાલીઓ કહે છે કે "અમને સમાજની પડી નથી," પણ પછી બાળકને અમુક વસ્તુ કરતા રોકે છે કારણ કે "સગા-વહાલા વાતો કરશે."</p>
+                    <p>Gen-Z પૂછે છે: <strong>"બીજા લોકોનો અભિપ્રાય મારી ખુશી કરતા વધારે મહત્વનો કેમ છે?"</strong></p>
+
+                    <div class="highlight-box">
+                        <h4>સગાઓ અને ટીકા</h4>
+                        <p>આપણા સમાજમાં સગાઓ ઘરે આવીને સીધું વજન, રંગ કે પગાર પર બોલવાનું શરૂ કરે છે.
+                        <br><strong>પ્રતિક્રિયા:</strong> જ્યારે Gen-Z સામે જવાબ આપે, ત્યારે તેને "અપમાન" કહેવાય છે.
+                        <br><strong>સત્ય:</strong> તેઓ અપમાન નથી કરતા, તેઓ પોતાનું <strong>સ્વમાન</strong> સાચવે છે. તેઓ માને છે કે ઈજ્જત માંગવાથી નહિ, સારા વ્યવહારથી મળે.</p>
+                    </div>
+
+                    <h3>ઉકેલ: અવગણના (Ignore)</h3>
+                    <p>Gen-Z ને સમજાઈ ગયું છે કે સમાજ ક્યારેય મદદ કરવા નથી આવવાનો. એટલે તેમણે સમાજને ગણકારવાનું બંધ કરી દીધું છે. ઘરમાં શાંતિ ત્યારે જ આવશે જ્યારે વાલીઓ સમાજની ચિંતા કરવાનું છોડી દેશે.</p>
+                `
+            },
+            ch7: {
+                en: `
+                    <span class="chapter-label">Chapter 7</span>
+                    <h1>Career, Money & Loyalty</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" alt="Young people working collaboratively with laptops in a modern space">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> Quick Summary</div>
+                        <p style="margin:0; font-size:0.9rem;">They are not lazy; they are disillusioned. They saw loyal parents get laid off. They prioritize mental health and growth over blind loyalty to a company.</p>
+                    </div>
+                    
+                    <h3>Accusation: "They are lazy and keep changing jobs."</h3>
+                    <p><strong>The Reality:</strong> Gen-Z saw their parents work loyally for one company for 30 years, only to face stress, health issues, or sudden layoffs. They learned a hard lesson: <strong>Loyalty to a company doesn't pay bills.</strong></p>
+
+                    <ul>
+                        <li><strong>Job Hopping:</strong> It's not lack of focus; it's the only way to beat inflation. Moving jobs often gives a 30% hike, while staying gives 5%.</li>
+                        <li><strong>Boundaries:</strong> Leaving work at 6 PM isn't "Quiet Quitting" or laziness. It's knowing that life exists outside the office. They prioritize mental health over corporate profits.</li>
+                        <li><strong>Startups over MNCs:</strong> They prefer places where they have a voice and can see their impact, rather than being a cog in a giant machine.</li>
+                    </ul>
+
+                    <h3>The AI Threat: Why Jobs are Vanishing</h3>
+                    <p>Older generations ask: <em>"Why can't you find a job? Just work hard."</em></p>
+                    <p><strong>The Reality:</strong> Artificial Intelligence (ChatGPT, Claude, etc.) has eaten the "Entry Level" jobs.
+                    <br>Tasks like writing emails, basic coding, graphic design, and data entry—which used to be how freshers started their careers—are now done by AI in seconds. Companies are hiring 1 expert with AI instead of 10 freshers. The ladder has been pulled up.</p>
+
+                    <h3>The Business/Startup Trap</h3>
+                    <p>Shows like <em>Shark Tank</em> made everyone want to start a business. But the market is <strong>Saturated</strong>.</p>
+                    <ul>
+                        <li><strong>High Competition:</strong> Every idea has 100 competitors immediately. Big players dominate every niche.</li>
+                        <li><strong>Low Margins:</strong> Advertising costs (Instagram/Google ads) are so high that profits are tiny. It's easy to start, but impossible to scale without huge money.</li>
+                    </ul>
+                    
+                    <p><strong>Conclusion:</strong> Gen-Z isn't lazy. They are playing a game on "Hard Mode" where traditional paths (Degree -> Job -> Pension) are broken. This is why they seek "Side Hustles"—it's desperation, not lack of focus.</p>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 7</span>
+                    <h1>करियर और पैसा</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" alt="Young people working collaboratively with laptops in a modern space">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> संक्षिप्त सार</div>
+                        <p style="margin:0; font-size:0.9rem;">वे आलसी नहीं हैं, वे मोहभंग का शिकार हैं। उन्होंने अपने वफादार माता-पिता को नौकरी से निकाले जाते देखा है। वे कंपनी के प्रति अंधभक्ति से ज्यादा अपने मानसिक स्वास्थ्य और विकास को महत्व देते हैं.</p>
+                    </div>
+                    
+                    <h3>आरोप: "ये आलसी हैं और बार-बार नौकरी बदलते हैं।"</h3>
+                    <p><strong>हकीकत:</strong> उन्होंने अपने माता-पिता को 30 साल तक वफादारी से एक ही जगह काम करते देखा, और बदले में क्या मिला? तनाव और बीमारियां। उन्होंने सीखा है कि <strong>कंपनी के प्रति वफादारी से घर नहीं चलता।</strong></p>
+
+                    <ul>
+                        <li><strong>नौकरी बदलना (Job Hopping):</strong> यह उनका शौक नहीं, मजबूरी है। महंगाई इतनी है कि एक जगह टिकने से गुजारा नहीं होता। नौकरी बदलने पर 30% सैलरी बढ़ती है, रुकने पर केवल 5%।</li>
+                        <li><strong>समय सीमा (Boundaries):</strong> शाम 6 बजे ऑफिस से निकलना आलस नहीं है। वे जानते हैं कि काम जिंदगी का हिस्सा है, पूरी जिंदगी नहीं। वे अपनी मानसिक शांति को मुनाफे से ऊपर रखते हैं।</li>
+                        <li><strong>स्टार्टअप कल्चर:</strong> वे ऐसी जगह काम करना चाहते हैं जहां उनकी कद्र हो और उनकी आवाज़ सुनी जाए।</li>
+                    </ul>
+
+                    <h3>AI का खतरा: नौकरियां क्यों खत्म हो रही हैं?</h3>
+                    <p>बड़ों का सवाल: <em>"तुम्हें नौकरी क्यों नहीं मिल रही? मेहनत करो।"</em></p>
+                    <p><strong>हकीकत:</strong> आर्टिफिशियल इंटेलिजेंस (AI/ChatGPT) ने "शुरुआती लेवल" (Entry Level) की नौकरियां खत्म कर दी हैं।
+                    <br>ईमेल लिखना, कोडिंग, डिजाइनिंग—जो काम पहले फ्रेशर्स करते थे, अब AI सेकेंडों में कर देता है। कंपनियां अब 10 फ्रेशर्स की जगह AI के साथ 1 एक्सपर्ट को नौकरी देती हैं। सीढ़ी का पहला पायदान ही गायब हो गया है।</p>
+
+                    <h3>बिज़नेस और स्टार्टअप का जाल</h3>
+                    <p>सबको लगता है कि बिजनेस करना आसान है, लेकिन बाजार पूरी तरह <strong>भर चुका है (Saturated)</strong>।</p>
+                    <ul>
+                        <li><strong>कड़ी प्रतिस्पर्धा:</strong> हर एक आइडिया पर पहले से 100 लोग काम कर रहे हैं। बड़ी कंपनियां हर जगह हैं।</li>
+                        <li><strong>कम मुनाफा:</strong> विज्ञापन (Ads) का खर्चा इतना महंगा हो गया है कि हाथ में कुछ नहीं बचता। बिजनेस शुरू करना आसान है, पर उसे चलाना बहुत मुश्किल।</li>
+                    </ul>
+                    
+                    <p><strong>निष्कर्ष:</strong> Gen-Z आलसी नहीं है। वे एक ऐसा गेम खेल रहे हैं जिसका लेवल "Hard" हो चुका है। डिग्री और नौकरी का पुराना फार्मूला अब काम नहीं करता।</p>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 7</span>
+                    <h1>કરિયર અને નોકરી</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" alt="Young people working collaboratively with laptops in a modern space">
+                    </div>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> ટૂંકમાં સાર</div>
+                        <p style="margin:0; font-size:0.9rem;">તેઓ આળસુ નથી. તેમણે જોયું છે કે વફાદારીનું પરિણામ હંમેશા સારું નથી હોતું. તેથી તેઓ કંપનીને નહીં, પણ પોતાના વિકાસ અને માનસિક શાંતિને વધુ મહત્વ આપે છે.</p>
+                    </div>
+                    
+                    <h3>ફરિયાદ: "તેઓ એક જગ્યાએ ટકતા નથી, આળસુ છે."</h3>
+                    <p><strong>હકીકત:</strong> તેમણે જોયું છે કે વડીલોએ આખી જિંદગી એક ઓફિસમાં વફાદારીથી કાઢી નાખી, છતાં છેલ્લે તેમને શું મળ્યું? સ્ટ્રેસ અને બીમારી. તેથી તેઓ કંપનીને નહીં, પણ <strong>પોતાના વિકાસને</strong> વફાદાર છે.</p>
+
+                    <ul>
+                        <li><strong>નોકરી બદલવી:</strong> આ જમાનામાં પગાર વધારવાનો આ જ એક રસ્તો છે. મોંઘવારી સામે ટકવા માટે આ જરૂરી છે.</li>
+                        <li><strong>વર્ક-લાઈફ બેલેન્સ:</strong> 6 વાગે લેપટોપ બંધ કરવું એ આળસ નથી, પણ સમજદારી છે. તેઓ કામ માટે જીવવા નથી માંગતા, જીવવા માટે કામ કરે છે.</li>
+                        <li><strong>નવું શીખવું:</strong> તેમને સરકારી નોકરી કે મોટી કંપની કરતા, જ્યાં શીખવા મળે અને ઈજ્જત મળે ત્યાં કામ કરવું ગમે છે.</li>
+                    </ul>
+
+                    <h3>AI નો ખતરો: નોકરીઓ ક્યાં ગઈ?</h3>
+                    <p>વડીલો પૂછે છે: <em>"તમને નોકરી કેમ નથી મળતી?"</em></p>
+                    <p><strong>હકીકત:</strong> AI (ChatGPT) એ શરૂઆતની નોકરીઓ ખાઈ લીધી છે. લખવાનું, ડિઝાઇન કરવાનું કે સામાન્ય કોમ્પ્યુટર કામ હવે AI કરી દે છે. કંપનીઓ હવે 10 નવા માણસોને રાખવાને બદલે 1 એક્સપર્ટથી કામ ચલાવે છે.</p>
+
+                    <h3>બિઝનેસ અને હરીફાઈ</h3>
+                    <p>બધાને બિઝનેસ કરવો છે, પણ માર્કેટમાં ભયંકર <strong>હરીફાઈ</strong> છે.</p>
+                    <ul>
+                        <li><strong>Competition:</strong> એક દુકાન ખોલો ત્યાં બાજુમાં બીજી 10 ખુલી જાય છે.</li>
+                        <li><strong>ઓછો નફો:</strong> જાહેરાત અને ઓનલાઈન માર્કેટિંગનો ખર્ચ એટલો વધી ગયો છે કે નફો ઘટતો જાય છે.</li>
+                    </ul>
+                    
+                    <p><strong>સાર:</strong> Gen-Z આળસુ નથી. જૂના જમાનાની "ડિગ્રી લો અને નોકરી કરો" વાળી સિસ્ટમ તૂટી ગઈ છે. તેઓ ટકી રહેવા માટે સંઘર્ષ કરી રહ્યા છે.</p>
+                `
+            },
+            ch8: {
+                en: `
+                    <span class="chapter-label">Chapter 8</span>
+                    <h1>Reaction Guide: How to Talk</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2070&auto=format&fit=crop" alt="Two women of different generations talking calmly">
+                    </div>
+
+                    <p>Gen-Z is extremely responsive to <strong>Tone of Voice</strong>. The exact same message said differently gets two opposite results.</p>
+                    
+                    <div class="script-box">
+                        <h4>Situation 1: They made a mistake (e.g., using phone too much)</h4>
+                        
+                        <p style="color:#e74c3c; margin-bottom:5px;"><strong>🔴 Wrong Way (Yelling/Control):</strong></p>
+                        <p>"You are useless! Always on the phone. You will fail in life."</p>
+                        <p>👉 <strong>Result:</strong> They will shut down. They will block you emotionally and hide things from you.</p>
+                        <hr style="border:0; border-top:1px dashed var(--col-border); margin:15px 0;">
+                        <p style="color:#27ae60; margin-bottom:5px;"><strong>🟢 Right Way (Care/Logic):</strong></p>
+                        <p>"Beta, I am worried. When you use the phone till 2 AM, it affects your sleep and health. Let's make a plan together."</p>
+                        <p>👉 <strong>Result:</strong> They listen because you showed Care, not Power. You became a team member, not an enemy.</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>Scenario 2: They failed an exam or lost a job</h4>
+                        <p class="dont-col">🔴 "I told you to study! Look at Sharma ji's son." (Result: Shame & Secrecy)</p>
+                        <p class="do-col">🟢 "I see you are upset. It's okay. A degree/job is not bigger than your life. We will figure this out together." (Result: Trust)</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>Scenario 3: They want to change careers (e.g., Engineer to YouTuber)</h4>
+                        <p class="dont-col">🔴 "Are you mad? Focus on stability!"</p>
+                        <p class="do-col">🟢 "That sounds risky but interesting. Show me your plan. If it makes you happy, let's look at the pros and cons logically."</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>Scenario 4: Coming home late</h4>
+                        <p class="dont-col">🔴 "Where were you?! Do you have no shame?"</p>
+                        <p class="do-col">🟢 "I was really scared for your safety. Please text me next time so I don't panic. I trust you, but the world is unsafe."</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>Scenario 5: They lock their room door</h4>
+                        <p class="dont-col">🔴 "What are you hiding? Open the door right now!"</p>
+                        <p class="do-col">🟢 (Knock gently) "I know you need your space. I'll be in the living room if you want to have tea later."</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>Scenario 6: They open up about mental health</h4>
+                        <p class="dont-col">🔴 "Stop acting. You just need to wake up early."</p>
+                        <p class="do-col">🟢 "Thank you for trusting me with this. I may not fully understand, but I am here to listen and help."</p>
+                    </div>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 8</span>
+                    <h1>बात करने का सही तरीका</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2070&auto=format&fit=crop" alt="Two women of different generations talking calmly">
+                    </div>
+
+                    <p>बच्चा आपकी बात सुनेगा या विद्रोह करेगा, यह पूरी तरह आपके <strong>बोलने के तरीके (Tone)</strong> पर निर्भर करता है। एक ही बात को कहने के दो तरीके होते हैं।</p>
+                    
+                    <div class="script-box">
+                        <h4>स्थिति 1: उनसे कोई गलती हुई (जैसे फोन ज्यादा चलाना)</h4>
+                        
+                        <p style="color:#e74c3c; margin-bottom:5px;"><strong>🔴 गलत तरीका (चिल्लाना/हुकुम देना):</strong></p>
+                        <p>"तुम किसी काम के नहीं हो, हमेशा फोन पर रहते हो! तुम्हारा कुछ नहीं हो सकता।"</p>
+                        <p>👉 <strong>परिणाम:</strong> वे चुप हो जाएंगे, ढीठ बन जाएंगे और आपसे बातें छिपाना शुरू कर देंगे।</p>
+                        <hr style="border:0; border-top:1px dashed var(--col-border); margin:15px 0;">
+                        <p style="color:#27ae60; margin-bottom:5px;"><strong>🟢 सही तरीका (परवाह/प्यार):</strong></p>
+                        <p>"बेटा, मुझे चिंता हो रही है। जब तुम रात को 2 बजे तक फोन देखते हो, तो तुम्हारी नींद और सेहत खराब होती है। चलो मिलकर इसे ठीक करते हैं।"</p>
+                        <p>👉 <strong>परिणाम:</strong> वे शायद आपकी बात सुनेंगे क्योंकि आपने उन पर हुकुम नहीं चलाया, बल्कि परवाह दिखाई। आप उनके दुश्मन नहीं, साथी बने।</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>स्थिति 2: वे फेल हो गए या नौकरी चली गई</h4>
+                        <p class="dont-col">🔴 "मैंने कहा था पढ़ाई करो! शर्मा जी के बेटे को देखो।" (परिणाम: शर्म और दूरियां)</p>
+                        <p class="do-col">🟢 "मैं देख रहा हूँ तुम परेशान हो। कोई बात नहीं। ये नौकरी/डिग्री तुम्हारी जिंदगी से बड़ी नहीं है। हम मिलकर रास्ता निकालेंगे।" (परिणाम: भरोसा)</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>स्थिति 3: करियर बदलना (जैसे इंजीनियर से यूट्यूबर)</h4>
+                        <p class="dont-col">🔴 "पागल हो गए हो? कोई इज्जतदार काम करो!"</p>
+                        <p class="do-col">🟢 "यह जोखिम भरा है पर दिलचस्प है। अपना प्लान बताओ। अगर इससे तुम्हें खुशी मिलती है, तो चलो इसके फायदे-नुकसान देखते हैं।"</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>स्थिति 4: घर देर से आना</h4>
+                        <p class="dont-col">🔴 "कहाँ थे?! कोई शर्म है या नहीं?"</p>
+                        <p class="do-col">🟢 "बेटा, मुझे तुम्हारी सुरक्षा को लेकर बहुत डर लग रहा था। अगली बार प्लीज मैसेज कर देना ताकि मैं घबराऊं नहीं।"</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>स्थिति 5: वे कमरे का दरवाजा बंद करते हैं</h4>
+                        <p class="dont-col">🔴 "क्या छिपा रहे हो? अभी दरवाजा खोलो!"</p>
+                        <p class="do-col">🟢 (आराम से खटखटाएं) "मुझे पता है तुम्हें अकेले रहना है। मैं बाहर हूँ, अगर बाद में चाय पीनी हो तो आ जाना।"</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>स्थिति 6: वे डिप्रेशन की बात करते हैं</h4>
+                        <p class="dont-col">🔴 "नाटक बंद करो। सुबह जल्दी उठो सब ठीक हो जाएगा।"</p>
+                        <p class="do-col">🟢 "मुझ पर भरोसा करके बताने के लिए शुक्रिया। मैं तुम्हारे साथ हूँ। हम मिलकर डॉक्टर के पास चलेंगे।"</p>
+                    </div>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 8</span>
+                    <h1>વાત કરવાની સાચી રીત</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?q=80&w=2070&auto=format&fit=crop" alt="Two women of different generations talking calmly">
+                    </div>
+
+                    <p>તમારું બાળક તમારી વાત માનશે કે નહિ, તે તમારા <strong>અવાજ અને રીત</strong> પર આધાર રાખે છે. પ્રેમથી કહેલી વાત તેઓ જલ્દી સમજે છે.</p>
+                    
+                    <div class="script-box">
+                        <h4>પ્રસંગ 1: તેમનાથી ભૂલ થઈ (જેમ કે મોબાઈલનો વધારે ઉપયોગ)</h4>
+                        
+                        <p style="color:#e74c3c; margin-bottom:5px;"><strong>🔴 ખોટી રીત (ગુસ્સો કરવો):</strong></p>
+                        <p>"તું સાવ નકામો છે, આખો દિવસ ફોનમાં પડ્યો રહે છે! તારું કઈ નહિ થાય."</p>
+                        <p>👉 <strong>પરિણામ:</strong> તેઓ તમારાથી દૂર થઈ જશે અને વાતો છુપાવવાનું શરૂ કરશે.</p>
+                        <hr style="border:0; border-top:1px dashed var(--col-border); margin:15px 0;">
+                        <p style="color:#27ae60; margin-bottom:5px;"><strong>🟢 સાચી રીત (ચિંતા દર્શાવવી):</strong></p>
+                        <p>"બેટા, મને ચિંતા થાય છે કે મોડે સુધી ફોન જોવાને કારણે તારી તબિયત બગડશે. આપણે આનું કઈક કરીએ."</p>
+                        <p>👉 <strong>પરિણામ:</strong> તેઓ તમારી વાત સમજશે કારણ કે તેમને તેમાં તમારો પ્રેમ દેખાશે, હુકમ નહીં.</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>પ્રસંગ 2: તેઓ નાપાસ થયા કે નોકરી ગઈ</h4>
+                        <p class="dont-col">🔴 "મેં કીધું હતું ને ભણવામાં ધ્યાન આપ! પેલાનો છોકરો જો." (પરિણામ: શરમ અને અંતર)</p>
+                        <p class="do-col">🟢 "તું ઉદાસ છે એ મને દેખાય છે. ચિંતા ન કર. આ પરીક્ષા તારી જિંદગીથી મોટી નથી. આપણે રસ્તો કાઢીશું." (પરિણામ: વિશ્વાસ)</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>પ્રસંગ 3: નવું કરિયર (જેમ કે એન્જીનીયર માંથી કલાકાર)</h4>
+                        <p class="dont-col">🔴 "ગાંડો થઈ ગયો છે? શાંતિથી નોકરી કર ને!"</p>
+                        <p class="do-col">🟢 "આમાં જોખમ છે, પણ તને ગમે છે તો મને તારો પ્લાન સમજાવ. આપણે સાથે મળીને વિચારીએ."</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>પ્રસંગ 4: ઘરે મોડા આવવું</h4>
+                        <p class="dont-col">🔴 "ક્યાં રખડતા હતા? ભાન નથી પડતી?"</p>
+                        <p class="do-col">🟢 "મને બહુ ચિંતા થતી હતી. પ્લીઝ બીજી વાર મોડું થાય તો મેસેજ કરી દેજે, મને શાંતિ રહે."</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>પ્રસંગ 5: રૂમ બંધ રાખવો</h4>
+                        <p class="dont-col">🔴 "શું સંતાડે છે? દરવાજો ખોલ અત્યારે જ!"</p>
+                        <p class="do-col">🟢 (શાંતિથી) "તારે એકલા રહેવું છે એ હું સમજું છું. હું બહાર હોલમાં છું, જ્યારે વાત કરવી હોય ત્યારે આવજે."</p>
+                    </div>
+
+                    <div class="script-box">
+                        <h4>પ્રસંગ 6: માનસિક તણાવની વાત</h4>
+                        <p class="dont-col">🔴 "નાટક બંધ કર. બધું મગજ નો વહેમ છે."</p>
+                        <p class="do-col">🟢 "મને આ વાત કરવા બદલ આભાર. હું તારી સાથે છું, આપણે આમાંથી બહાર નીકળીશું."</p>
+                    </div>
+                `
+            },
+            ch9: {
+                en: `
+                    <span class="chapter-label">Chapter 9</span>
+                    <h1>Bridging the Gap</h1>
+
+                    <h3>The Golden Rule</h3>
+                    <p><strong>Stop translating everything as "Disrespect."</strong> Sometimes, their silence is just anxiety. Sometimes, their anger is just overwhelm. They are not fighting *you*; they are fighting their own stress.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>Magical Scripts for Parents (Try saying these)</h3>
+                        <ul>
+                            <li>"I may not understand your world fully, but I want to learn. Teach me."</li>
+                            <li>"We are on the same team. I am not your enemy."</li>
+                            <li>"You don't have to be perfect. I love you anyway."</li>
+                        </ul>
+                    </div>
+
+                    <h3>For Parents: 15 Golden Scripts (Expanded)</h3>
+                    <p>Use these exact words to break down walls:</p>
+                    <div class="highlight-box" style="background:var(--success-soft);">
+                        <ul style="margin:0; line-height: 1.8;">
+                            <li>"I don't understand, but I want to. Help me understand."</li>
+                            <li>"Your mental peace is more important to me than your grades."</li>
+                            <li>"I trust your judgment."</li>
+                            <li>"You don't have to be perfect to be loved."</li>
+                            <li>"I am on your team, not against you."</li>
+                            <li>"Take a mental health day if you need it."</li>
+                            <li>"I promise not to get angry, just tell me the truth."</li>
+                            <li>"I am sorry I compared you to others. That was wrong."</li>
+                            <li>"It's okay to cry. I am here."</li>
+                            <li>"I love YOU, not your achievements."</li>
+                            <li>"How can I support you right now?"</li>
+                            <li>"I am proud of the person you are becoming."</li>
+                            <li>"Let's agree to disagree on this, but let's not fight."</li>
+                            <li>"Thank you for being honest with me."</li>
+                            <li>"You can always come back home, no matter what happens."</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box" style="background:var(--col-bg); border-color:#27ae60;">
+                        <h3>Magical Scripts for Gen-Z (Try saying these)</h3>
+                        <ul>
+                            <li>"Mom/Dad, I am not arguing, I am just trying to explain my feelings."</li>
+                            <li>"I need your support right now, not advice."</li>
+                            <li>"I know you worry because you love me."</li>
+                        </ul>
+                    </div>
+
+                    <h3>For Gen-Z: 15 Golden Scripts (Expanded)</h3>
+                    <p>Use these to explain without fighting:</p>
+                    <div class="highlight-box" style="background:var(--col-bg); border-color:#2980b9;">
+                        <ul style="margin:0; line-height: 1.8;">
+                            <li>"I am not arguing, I am just explaining my perspective."</li>
+                            <li>"I need support right now, not advice."</li>
+                            <li>"When you say X, it makes me feel Y."</li>
+                            <li>"I am feeling overwhelmed, can we talk about this later?"</li>
+                            <li>"I value your opinion, but this is my decision to make."</li>
+                            <li>"Please don't comment on my body, it hurts me."</li>
+                            <li>"I know you worry because you care, but trust me."</li>
+                            <li>"Social media is my way of connecting, not just wasting time."</li>
+                            <li>"I respect our culture, but I need to prioritize my mental health."</li>
+                            <li>"I love you, even if we disagree."</li>
+                            <li>"I am trying my best, please be patient with me."</li>
+                            <li>"Can we restart this conversation calmly?"</li>
+                            <li>"I appreciate everything you do for me."</li>
+                            <li>"I want to share this with you, but I am afraid you will get angry."</li>
+                            <li>"Times have changed, and I am trying to adapt."</li>
+                        </ul>
+                    </div>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 9</span>
+                    <h1>रिश्तों को कैसे सुधारें?</h1>
+
+                    <h3>सुनहरा नियम (Golden Rule)</h3>
+                    <p><strong>हर बात को "अनादर" (Disrespect/Badatameezi) न समझें।</strong> कभी-कभी उनकी चुप्पी का कारण चिंता (Anxiety) होती है। कभी-कभी उनका गुस्सा सिर्फ थकान होती है। वे आपसे नहीं लड़ रहे, वे अपने तनाव से लड़ रहे हैं।</p>
+                    
+                    <div class="highlight-box">
+                        <h3>माता-पिता के लिए जादुई वाक्य (इनका प्रयोग करें)</h3>
+                        <ul>
+                            <li>"शायद मैं तुम्हारी दुनिया को पूरी तरह नहीं समझता, लेकिन मैं समझना चाहता हूँ। मुझे सिखाओ।"</li>
+                            <li>"हम एक ही टीम में हैं। मैं तुम्हारा दुश्मन नहीं हूँ।"</li>
+                            <li>"तुम्हें परफेक्ट होने की जरुरत नहीं है। तुम जैसे हो, मुझे प्यारे हो।"</li>
+                        </ul>
+                    </div>
+
+                    <h3>माता-पिता के लिए: 15 जादुई वाक्य (विस्तृत)</h3>
+                    <div class="highlight-box" style="background:var(--success-soft);">
+                        <ul style="margin:0; line-height: 1.8;">
+                            <li>"मैं समझ नहीं पा रहा, पर समझना चाहता हूँ। मुझे समझाओ।"</li>
+                            <li>"मेरे लिए तुम्हारे नंबरों (Marks) से ज्यादा तुम्हारी खुशी जरुरी है।"</li>
+                            <li>"मुझे तुम्हारे फैसले पर भरोसा है।"</li>
+                            <li>"प्यार पाने के लिए तुम्हें परफेक्ट होने की जरुरत नहीं है।"</li>
+                            <li>"मैं तुम्हारी टीम में हूँ, तुम्हारे खिलाफ नहीं।"</li>
+                            <li>"अगर तुम्हें आराम चाहिए, तो आज छुट्टी ले लो।"</li>
+                            <li>"मैं वादा करता हूँ गुस्सा नहीं करूँगा, बस सच बता दो।"</li>
+                            <li>"माफ़ करना मैंने तुम्हारी तुलना दूसरों से की। वह गलत था।"</li>
+                            <li>"रोना ठीक है। मैं हूँ ना।"</li>
+                            <li>"मैं तुमसे प्यार करता हूँ, तुम्हारी डिग्री से नहीं।"</li>
+                            <li>"मैं अभी तुम्हारी मदद कैसे कर सकता हूँ?"</li>
+                            <li>"मुझे गर्व है तुम जैसे इंसान बन रहे हो।"</li>
+                            <li>"शुक्रिया कि तुमने मुझसे सच बोला।"</li>
+                            <li>"चाहे कुछ भी हो जाए, घर के दरवाजे तुम्हारे लिए हमेशा खुले हैं।"</li>
+                            <li>"चलो इस बात पर बहस नहीं करते, हम दोनों अलग सोच सकते हैं।"</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box" style="background:var(--col-bg); border-color:#27ae60;">
+                        <h3>बच्चों (Gen-Z) के लिए जादुई वाक्य</h3>
+                        <ul>
+                            <li>"पापा/मम्मी, मैं बहस नहीं कर रहा, बस अपनी बात समझाने की कोशिश कर रहा हूँ।"</li>
+                            <li>"मुझे अभी आपकी सलाह नहीं, बस आपके साथ की जरुरत है।"</li>
+                            <li>"मैं जानता हूँ कि आप प्यार करते हैं इसलिए चिंता करते हैं।"</li>
+                        </ul>
+                    </div>
+
+                    <h3>Gen-Z (बच्चों) के लिए: 15 जादुई वाक्य (विस्तृत)</h3>
+                    <div class="highlight-box" style="background:var(--col-bg); border-color:#2980b9;">
+                        <ul style="margin:0; line-height: 1.8;">
+                            <li>"मैं बहस नहीं कर रहा, बस अपनी बात रख रहा हूँ।"</li>
+                            <li>"मुझे अभी सलाह नहीं, बस आपके साथ की जरुरत है।"</li>
+                            <li>"जब आप ऐसा कहते हैं, तो मुझे बहुत दुख होता है।"</li>
+                            <li>"मेरा दिमाग अभी बहुत थका हुआ है, क्या हम बाद में बात कर सकते हैं?"</li>
+                            <li>"मैं आपकी इज्जत करता हूँ, पर यह फैसला मेरा है।"</li>
+                            <li>"प्लीज मेरे शरीर/वजन पर कमेंट मत करें, मुझे बुरा लगता है।"</li>
+                            <li>"मैं जानता हूँ आप चिंता करते हैं, पर मुझ पर भरोसा रखें।"</li>
+                            <li>"मैं हमारी संस्कृति का सम्मान करता हूँ, पर मेरी मानसिक शांति भी जरुरी है।"</li>
+                            <li>"हमारे विचार अलग हो सकते हैं, पर मैं आपसे प्यार करता हूँ।"</li>
+                            <li>"मैं अपनी पूरी कोशिश कर रहा हूँ, प्लीज थोड़ा धैर्य रखें।"</li>
+                            <li>"क्या हम इस बात को शांति से फिर से शुरू कर सकते हैं?"</li>
+                            <li>"आप मेरे लिए जो करते हैं, मैं उसकी कद्र करता हूँ।"</li>
+                            <li>"मैं आपको बताना चाहता हूँ, पर डर लग रहा है कि आप गुस्सा होंगे।"</li>
+                            <li>"समय बदल गया है, और मैं उसके साथ चलने की कोशिश कर रहा हूँ।"</li>
+                            <li>"सोशल मीडिया मेरा दोस्तों से जुड़ने का तरीका है, सिर्फ टाइम पास नहीं।"</li>
+                        </ul>
+                    </div>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 9</span>
+                    <h1>ઉકેલ અને જાદુઈ શબ્દો</h1>
+
+                    <h3>એક સોનેરી નિયમ</h3>
+                    <p><strong>દરેક વાતને અપમાન ન ગણો.</strong> ક્યારેક બાળક એટલા માટે ચૂપ રહે છે કારણ કે તે મૂંઝવણમાં હોય છે. તેઓ તમારી સામે નથી લડી રહ્યા, તેઓ પોતાની ચિંતા સામે લડી રહ્યા છે.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>વાલીઓ માટે (આટલું બોલી જુઓ)</h3>
+                        <ul>
+                            <li>"મને તારી દુનિયા વિશે બહુ ખબર નથી, પણ મારે સમજવું છે. મને શીખવાડ."</li>
+                            <li>"હું તારો દુશ્મન નથી, આપણે એક જ ટીમમાં છીએ."</li>
+                            <li>"તું જેવો છે તેવો મને ગમે છે."</li>
+                        </ul>
+                    </div>
+
+                    <h3>વાલીઓ માટે: 15 જાદુઈ વાક્યો (વિસ્તૃત)</h3>
+                    <div class="highlight-box" style="background:var(--success-soft);">
+                        <ul style="margin:0; line-height: 1.8;">
+                            <li>"મને સમજ નથી પડતી, પણ મારે સમજવું છે. મને શીખવાડ."</li>
+                            <li>"મારા માટે તારા રિઝલ્ટ કરતા તારી ખુશી મહત્વની છે."</li>
+                            <li>"મને તારા નિર્ણય પર વિશ્વાસ છે."</li>
+                            <li>"તું જેવો છે તેવો મને ગમે છે, બદલાવાની જરૂર નથી."</li>
+                            <li>"હું તારો દુશ્મન નથી, હું તારી ટીમમાં છું."</li>
+                            <li>"જો થાક લાગ્યો હોય તો આજે આરામ કરી લે."</li>
+                            <li>"હું ગુસ્સે નહિ થાઉં, બસ મને સાચું કહી દે."</li>
+                            <li>"માફ કરજે, મેં તારી સરખામણી બીજા સાથે કરી."</li>
+                            <li>"રડવું આવે તો રડી લે, હું અહીં જ છું."</li>
+                            <li>"હું તને પ્રેમ કરું છું, તારી સફળતાને નહીં."</li>
+                            <li>"તને ગર્વ હોવો જોઈએ કે તું એક સારો માણસ બની રહ્યો છે."</li>
+                            <li>"સાચું કહેવા બદલ આભાર."</li>
+                            <li>"ગમે તે થાય, આ ઘર તારું જ છે."</li>
+                            <li>"હું તારી મદદ કેવી રીતે કરી શકું?"</li>
+                            <li>"ચાલ આ વાત પર ઝઘડો નથી કરવો, આપણી વિચારધારા અલગ હોઈ શકે."</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box" style="background:var(--col-bg); border-color:#27ae60;">
+                        <h3>બાળકો માટે (આટલું બોલી જુઓ)</h3>
+                        <ul>
+                            <li>"મમ્મી/પપ્પા, હું સામે નથી બોલતો, ખાલી મારો વિચાર સમજાવું છું."</li>
+                            <li>"મારે અત્યારે સલાહ નથી જોઈતી, ખાલી તમે સાંભળો તો બસ છે."</li>
+                            <li>"મને ખબર છે કે તમને મારી ચિંતા થાય છે."</li>
+                        </ul>
+                    </div>
+
+                    <h3>Gen-Z (બાળકો) માટે: 15 જાદુઈ વાક્યો (વિસ્તૃત)</h3>
+                    <div class="highlight-box" style="background:var(--col-bg); border-color:#2980b9;">
+                        <ul style="margin:0; line-height: 1.8;">
+                            <li>"હું સામે નથી બોલતો, ખાલી મારો વિચાર સમજાવું છું."</li>
+                            <li>"મારે અત્યારે સલાહ નથી જોઈતી, ખાલી તમે સાંભળો તો બસ છે."</li>
+                            <li>"જ્યારે તમે આવું બોલો છો ત્યારે મને બહુ દુઃખ થાય છે."</li>
+                            <li>"હું અત્યારે બહુ ટેન્શનમાં છું, આપણે પછી વાત કરીએ?"</li>
+                            <li>"હું તમારું માન રાખું છું, પણ આ નિર્ણય મારે જાતે લેવો છે."</li>
+                            <li>"મહેરબાની કરીને મારા દેખાવ પર કોમેન્ટ ન કરો."</li>
+                            <li>"મને ખબર છે તમને મારી ચિંતા થાય છે, પણ મારા પર વિશ્વાસ રાખો."</li>
+                            <li>"આપણા વિચારો અલગ હોઈ શકે, પણ હું તમને પ્રેમ કરું છું."</li>
+                            <li>"હું મારી પૂરી કોશિશ કરું છું, પ્લીઝ થોડી ધીરજ રાખો."</li>
+                            <li>"શું આપણે શાંતિથી વાત કરી શકીએ?"</li>
+                            <li>"તમે મારા માટે જે કરો છો તેની મને કદર છે."</li>
+                            <li>"મારે તમને કઈક કહેવું છે, પણ ડર લાગે છે કે તમે ગુસ્સે થશો."</li>
+                            <li>"જમાનો બદલાઈ ગયો છે, હું એ પ્રમાણે જીવવાનો પ્રયત્ન કરું છું."</li>
+                            <li>"સોશિયલ મીડિયા એ મારો મિત્રો સાથે રહેવાનો રસ્તો છે, ખાલી ટાઈમપાસ નથી."</li>
+                            <li>"મારી માનસિક શાંતિ પણ જરૂરી છે."</li>
+                        </ul>
+                    </div>
+                `
+            },
+            ch10: {
+                en: `
+                    <span class="chapter-label">Chapter 10</span>
+                    <h1>The Older Generation's Truth</h1>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> Quick Summary</div>
+                        <p style="margin:0; font-size:0.9rem;">Elders aren't villains; they are survivors of a tougher era where compromise was the only way to survive. Both generations are "Right" in their own context. The future requires mutual adaptation.</p>
+                    </div>
+
+                    <h3>1. The Untold Struggle of Our Elders</h3>
+                    <p>Before we judge parents or grandparents for being "strict" or "controlling," we must understand their timeline. They lived in an era of <strong>Scarcity and Survival</strong>.</p>
+                    <ul>
+                        <li><strong>Education:</strong> Many had to walk kilometers to school, study under streetlights, or quit education early to support siblings. They didn't have Google; they had to struggle for basic knowledge.</li>
+                        <li><strong>Marriage:</strong> Most didn't choose their partners. They married strangers because of "family duty" and spent 40 years compromising their own happiness to keep the family intact.</li>
+                        <li><strong>Culture:</strong> They were raised in a system where "Self-Sacrifice" was the highest virtue. If they ever thought about their own happiness, society shamed them.</li>
+                    </ul>
+                    <p><strong>Their Logic:</strong> "We sacrificed everything to give you this comfortable life. Why are you still unhappy?" From their lens, they are 100% correct.</p>
+
+                    <h3>2. The Conflict Loop</h3>
+                    <p>This is why fights happen:</p>
+                    <div class="script-box">
+                        <p><strong>Gen-Z tries to explain a change</strong> (e.g., "I want to quit my job").</p>
+                        <p>⬇️</p>
+                        <p><strong>Older Gen gets triggered:</strong> Their trauma reminds them of poverty/struggle, so they get angry/scared and scold ("Are you mad?").</p>
+                        <p>⬇️</p>
+                        <p><strong>Gen-Z reacts to Tone:</strong> Gen-Z feels disrespected by the yelling and shuts down or fights back later.</p>
+                    </div>
+
+                    <h3>3. Why Both Are Right</h3>
+                    <p>It is not about Right vs. Wrong. It is <strong>Survival vs. Thriving</strong>.</p>
+                    <ul>
+                        <li><strong>Older Gen is Right:</strong> Hard work, saving money, and social cohesion kept them alive in tough times.</li>
+                        <li><strong>Gen-Z is Right:</strong> In a world of AI and mental health crises, prioritizing peace and flexibility is the only way to survive <em>now</em>.</li>
+                    </ul>
+                    <p>Gen-Z sees their entire generation (friends, internet) choosing peace. They can't un-see it. They can't go back to the "suffering" mode.</p>
+
+                    <h3>4. How Parents Can Adapt (Step-by-Step)</h3>
+                    <p>Dear Parents, adopting Gen-Z ways doesn't mean losing your values. It means evolving.</p>
+                    <ul>
+                        <li><strong>Step 1: Sit and Talk (Without Lecturing):</strong> Just listen. Say, "Tell me more," instead of "You are wrong."</li>
+                        <li><strong>Step 2: Drop the "Morality" Lens:</strong> Just because something is new (like dating or career gaps), it doesn't mean it is "immoral" or "bad sanskar." It's just different.</li>
+                        <li><strong>Step 3: Connect, Don't Correct:</strong> Your child needs a friend, not a boss. If you correct them constantly, they will stop sharing their life with you.</li>
+                    </ul>
+
+                    <h3>5. The Ultimate Truth: Why Change is Inevitable</h3>
+                    <div class="highlight-box">
+                        <p><strong>Think about this:</strong> Older generations moved from letters to smartphones, from theaters to Netflix/JioCinema. You adapted because it was <em>better</em>.</p>
+                        <p><strong>The Future is Gen-Z:</strong> 95% of the world is moving towards mental peace, equality, and flexibility. If you remain in the 5% who resist, you will only bring anger and chaos into your home.</p>
+                        <p><strong>The Benefit:</strong> Gen-Z is actually living the life you secretly dreamed of—freedom from societal pressure. If you accept them, you can share in their happiness. If you fight them, you lose your peace <em>and</em> your connection with them. Choose happiness over "Log Kya Kahenge."</p>
+                    </div>
+                `,
+                hi: `
+                    <span class="chapter-label">अध्याय 10</span>
+                    <h1>बड़ों (Old Generation) का सच</h1>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> संक्षिप्त सार</div>
+                        <p style="margin:0; font-size:0.9rem;">बड़े लोग दुश्मन नहीं हैं; वे एक कठिन दौर के योद्धा हैं जहाँ समझौता (Compromise) ही जीने का एकमात्र तरीका था। दोनों पीढ़ियां अपने-अपने नजरिए से सही हैं।</p>
+                    </div>
+
+                    <h3>1. हमारे बड़ों का अनकहा संघर्ष</h3>
+                    <p>इससे पहले कि हम माता-पिता या दादा-दादी को "सख्त" कहें, हमें उनके समय को समझना होगा। उन्होंने <strong>कमी और संघर्ष</strong> के दौर में जीवन बिताया है।</p>
+                    <ul>
+                        <li><strong>शिक्षा:</strong> कितनों को मीलों पैदल चलना पड़ा, स्ट्रीट लाइट के नीचे पढ़ना पड़ा, या भाई-बहनों के लिए पढ़ाई छोड़नी पड़ी। उनके पास Google नहीं था।</li>
+                        <li><strong>शादी:</strong> अधिकांश ने अपने जीवनसाथी को नहीं चुना। उन्होंने "पारिवारिक कर्तव्य" के लिए अजनबियों से शादी की और परिवार को टूटने से बचाने के लिए 40 साल तक अपनी खुशी का गला घोंटा।</li>
+                        <li><strong>संस्कृति:</strong> उन्हें सिखाया गया था कि "त्याग" ही सबसे बड़ा धर्म है। अगर उन्होंने कभी अपनी खुशी के बारे में सोचा, तो समाज ने उन्हें शर्मिंदा किया।</li>
+                    </ul>
+                    <p><strong>उनका तर्क:</strong> "हमने तुम्हें यह आरामदायक जीवन देने के लिए अपना सब कुछ त्याग दिया। फिर भी तुम नाखुश क्यों हो?" उनकी नजर से देखें, तो वे 100% सही हैं।</p>
+
+                    <h3>2. झगड़े का चक्र (Conflict Loop)</h3>
+                    <p>झगड़े इसलिए होते हैं:</p>
+                    <div class="script-box">
+                        <p><strong>Gen-Z बदलाव की बात करता है</strong> (जैसे: "मुझे नौकरी छोड़नी है")।</p>
+                        <p>⬇️</p>
+                        <p><strong>बड़ों को डर लगता है:</strong> उन्हें अपना पुराना संघर्ष याद आता है, इसलिए वे गुस्से में डांटते हैं ("पागल हो गए हो?")।</p>
+                        <p>⬇️</p>
+                        <p><strong>Gen-Z लहजे (Tone) पर प्रतिक्रिया देता है:</strong> Gen-Z को चिल्लाने से अपमान महसूस होता है और वे चुप हो जाते हैं या बाद में लड़ते हैं।</p>
+                    </div>
+
+                    <h3>3. दोनों सही क्यों हैं?</h3>
+                    <p>यह सही बनाम गलत की लड़ाई नहीं है। यह <strong>अस्तित्व (Survival) बनाम जीवन (Thriving)</strong> है।</p>
+                    <ul>
+                        <li><strong>बड़ों का सच:</strong> कड़ी मेहनत और पैसे बचाना उस समय जरुरी था।</li>
+                        <li><strong>Gen-Z का सच:</strong> आज के मानसिक तनाव वाले दौर में शांति और लचीलापन (Flexibility) ही बचने का रास्ता है।</li>
+                    </ul>
+
+                    <h3>4. माता-पिता बदलाव कैसे अपनाएं?</h3>
+                    <p>प्रिय माता-पिता, Gen-Z के तरीकों को अपनाने का मतलब अपने संस्कार खोना नहीं है। इसका मतलब है समय के साथ चलना।</p>
+                    <ul>
+                        <li><strong>कदम 1: बैठें और बात करें:</strong> बस सुनें। "तुम गलत हो" कहने के बजाय कहें, "मुझे और बताओ।"</li>
+                        <li><strong>कदम 2: "नैतिकता" का चश्मा उतारें:</strong> सिर्फ इसलिए कि कोई चीज नई है (जैसे लव मैरिज या करियर ब्रेक), इसका मतलब यह नहीं कि वह "गलत" या "पाप" है।</li>
+                        <li><strong>कदम 3: दोस्त बनें, बॉस नहीं:</strong> अगर आप हर वक्त टोकेंगे, तो बच्चा आपसे अपनी बातें छिपाना शुरू कर देगा।</li>
+                    </ul>
+
+                    <h3>5. अंतिम सत्य: बदलाव क्यों जरुरी है?</h3>
+                    <div class="highlight-box">
+                        <p><strong>जरा सोचिए:</strong> पुरानी पीढ़ी ने चिट्ठियों से फोन, और थिएटर से Netflix/JioCinema को अपनाया। क्यों? क्योंकि वह सुविधाजनक था।</p>
+                        <p><strong>भविष्य Gen-Z का है:</strong> दुनिया के 95% लोग मानसिक शांति और आजादी की तरफ बढ़ रहे हैं। अगर आप उन 5% में रहेंगे जो जिद्द पर अड़े हैं, तो घर में सिर्फ क्लेश और दुख होगा।</p>
+                        <p><strong>फायदा:</strong> Gen-Z असल में वह जीवन जी रहा है जिसका सपना आपने शायद कभी देखा होगा—समाज के डर से मुक्त जीवन। अगर आप उन्हें अपनाते हैं, तो आप उनकी खुशी में शामिल हो सकते हैं। "लोग क्या कहेंगे" से ऊपर अपनी घर की शांति को चुनें।</p>
+                    </div>
+                `,
+                gu: `
+                    <span class="chapter-label">પ્રકરણ 10</span>
+                    <h1>વડીલોનું સત્ય</h1>
+
+                    <div class="tldr-box">
+                        <div class="tldr-title"><i class="fa-solid fa-bolt"></i> ટૂંકમાં સાર</div>
+                        <p style="margin:0; font-size:0.9rem;">વડીલો દુશ્મન નથી; તેઓ એવા સમયના યોદ્ધા છે જ્યાં "બાંધછોડ" (Compromise) એ જ જીવન હતું. બંને પેઢી પોતપોતાની રીતે સાચી છે.</p>
+                    </div>
+
+                    <h3>1. આપણા વડીલોનો સંઘર્ષ</h3>
+                    <p>આપણે માતા-पिता કે દાદા-દાદીને "કડક" કહીએ તે પહેલા, તેમનો સમય સમજવો પડે. તેઓ <strong>અભાવ અને સંઘર્ષ</strong> ના સમયમાં જીવ્યા છે.</p>
+                    <ul>
+                        <li><strong>શિક્ષણ:</strong> ઘણાને શાળાએ જવા કિલોમીટરો ચાલવું પડતું, સ્ટ્રીટ લાઈટ નીચે વાંચવું પડતું. તેમની પાસે Google ન હતું.</li>
+                        <li><strong>લગ્ન:</strong> મોટાભાગના લોકોએ જીવનસાથી પસંદ નથી કર્યા. "પરિવારની ઈજ્જત" ખાતર અજાણ્યા સાથે લગ્ન કર્યા અને 40 વર્ષ સુધી પોતાની ખુશીનું બલિદાન આપ્યું.</li>
+                        <li><strong>સંસ્કાર:</strong> તેમને શીખવવામાં આવ્યું હતું કે "ત્યાગ" એ જ ધર્મ છે. જો તેઓ પોતાની ખુશીનું વિચારે તો સમાજ તેમને સ્વાર્થી કહેતો.</li>
+                    </ul>
+                    <p><strong>તેમનો તર્ક:</strong> "અમે તમને સુખ આપવા અમારું બધું આપી દીધું. તો પણ તમે દુઃખી કેમ છો?" તેમની દ્રષ્ટિએ તેઓ 100% સાચા છે.</p>
+
+                    <h3>2. ઝઘડાનું કારણ</h3>
+                    <div class="script-box">
+                        <p><strong>Gen-Z વાત કરે છે:</strong> (જેમ કે "મારે નોકરી છોડવી છે").</p>
+                        <p>⬇️</p>
+                        <p><strong>વડીલો ડરી જાય છે:</strong> તેમને જૂનો ગરીબીનો સમય યાદ આવે છે, એટલે તેઓ ગુસ્સે થાય છે.</p>
+                        <p>⬇️</p>
+                        <p><strong>Gen-Z ને રીત ગમતી નથી:</strong> બૂમો પાડવાથી Gen-Z ને અપમાન લાગે છે અને તેઓ વાત બંધ કરી દે છે.</p>
+                    </div>
+
+                    <h3>3. બંને સાચા કેમ છે?</h3>
+                    <p>આ સાચા કે ખોટાની લડાઈ નથી. આ <strong>જૂના સમય અને નવા સમય</strong> ની લડાઈ છે.</p>
+                    <ul>
+                        <li><strong>વડીલો સાચા છે:</strong> તે જમાનામાં સખત મહેનત અને બચત જ બધું હતું.</li>
+                        <li><strong>Gen-Z સાચા છે:</strong> આજના જમાનામાં માનસિક શાંતિ જ ટકી રહેવાનો રસ્તો છે.</li>
+                    </ul>
+
+                    <h3>4. વાલીઓ પરિવર્તન કેવી રીતે લાવે?</h3>
+                    <p>વહાલા વાલીઓ, Gen-Z ને સમજવું એટલે તમારા સંસ્કાર ભૂલવા નહિ, પણ સમય સાથે ચાલવું.</p>
+                    <ul>
+                        <li><strong>પગલું 1: વાતો કરો:</strong> ખાલી સાંભળો. "તું ખોટો છે" કહેવાને બદલે કહો, "મને સમજાવ."</li>
+                        <li><strong>પગલું 2: દરેક નવી વાત "ખરાબ" નથી:</strong> પ્રેમ લગ્ન કે કરિયર બદલવું એ "અસંસ્કારી" નથી, બસ અલગ છે.</li>
+                        <li><strong>પગલું 3: મિત્ર બનો:</strong> જો તમે બોસ બનશો, તો બાળક તમારી સાથે વાત કરવાનું બંધ કરી દેશે.</li>
+                    </ul>
+
+                    <h3>5. અંતિમ સત્ય: પરિવર્તન જ જીવન છે</h3>
+                    <div class="highlight-box">
+                        <p><strong>વિચારો:</strong> તમે કાગળ લખવાનું છોડીને મોબાઈલ વાપરતા થયા, થીયેટર છોડીને Netflix જોતા થયા. કેમ? કારણ કે તે અનુકૂળ હતું.</p>
+                        <p><strong>ભવિષ્ય Gen-Z નું છે:</strong> દુનિયાના 95% લોકો હવે માનસિક શાંતિ અને સ્વતંત્રતા તરફ જઈ રહ્યા છે. જો તમે જીદ પકડી રાખશો તો ઘરમાં ખાલી કંકાસ થશે.</p>
+                        <p><strong>ફાયદો:</strong> Gen-Z એ જ જીવન જીવી રહ્યું છે જેનું સપનું તમે કદાચ જોયું હશે. જો તમે તેમને સ્વીકારશો, તો તમે પણ એ ખુશી અનુભવી શકશો. "લોકો શું કહેશે" એના કરતા ઘરની શાંતિ વધારે મહત્વની છે.</p>
+                    </div>
+                `
+            },
+            bib: {
+                en: `
+                    <span class="chapter-label">Sources</span>
+                    <h1>Bibliography & References</h1>
+                    
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2073&auto=format&fit=crop" alt="Open book with glasses on a wooden table">
+                    </div>
+
+                    <p>The information in this guide is based on verified research, psychological studies, and global surveys. Here are the authoritative sources used:</p>
+
+                    <h3>1. Gen-Z Identity & Demographics</h3>
+                    <a href="https://www.pewresearch.org/topic/generations-and-age/generations/generation-z/" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Pew Research Center: Generation Z Topics
+                    </a>
+                    <a href="https://www.mckinsey.com/featured-insights/mckinsey-explainers/what-is-gen-z" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> McKinsey & Company: What is Gen Z?
+                    </a>
+
+                    <h3>2. Mental Health & Psychology</h3>
+                    <a href="https://scholar.google.com/scholar?q=generation+z+mental+health" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Google Scholar: Academic Papers on Gen Z Mental Health
+                    </a>
+
+                    <h3>3. Career & Workplace Trends</h3>
+                    <a href="https://hbr.org/topic/generational-issues" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Harvard Business Review: Generational Issues
+                    </a>
+                    <a href="https://timesofindia.indiatimes.com/topic/Gen-Z" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Times of India: Gen Z News & Trends
+                    </a>
+
+                    <h3>4. Cultural & Social Studies</h3>
+                    <a href="https://www.weforum.org/agenda/2022/05/gen-z-workplace-mental-health-great-resignation/" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> World Economic Forum: Gen Z and the Future of Work
+                    </a>
+
+                    <div class="tldr-box" style="margin-top: 2rem;">
+                        <p style="font-size:0.8rem; color:var(--col-text-muted);"><strong>Disclaimer:</strong> The links above lead to third-party websites. This guide is an educational resource summarizing complex topics for better understanding.</p>
+                    </div>
+                `,
+                hi: `
+                    <span class="chapter-label">स्रोत</span>
+                    <h1>संदर्भ और ग्रंथ सूची (Bibliography)</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2073&auto=format&fit=crop" alt="Open book with glasses on a wooden table">
+                    </div>
+
+                    <p>इस गाइड में दी गई जानकारी सत्यापित शोध, मनोवैज्ञानिक अध्ययन और वैश्विक सर्वेक्षणों पर आधारित है। यहाँ प्रमुख स्रोत दिए गए हैं:</p>
+
+                    <h3>1. Gen-Z की पहचान और आंकड़े</h3>
+                    <a href="https://www.pewresearch.org/topic/generations-and-age/generations/generation-z/" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Pew Research Center: Gen Z के बारे में जानकारी
+                    </a>
+                    <a href="https://www.mckinsey.com/featured-insights/mckinsey-explainers/what-is-gen-z" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> McKinsey & Company: Gen Z की सच्चाई
+                    </a>
+
+                    <h3>2. मानसिक स्वास्थ्य और मनोविज्ञान</h3>
+                    <a href="https://scholar.google.com/scholar?q=generation+z+mental+health" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Google Scholar: मानसिक स्वास्थ्य पर अकादमिक शोध
+                    </a>
+
+                    <h3>3. करियर और कार्यस्थल के रुझान</h3>
+                    <a href="https://hbr.org/topic/generational-issues" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Harvard Business Review: पीढ़ियों के मुद्दे
+                    </a>
+                    <a href="https://timesofindia.indiatimes.com/topic/Gen-Z" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Times of India: Gen Z समाचार और रुझान
+                    </a>
+
+                    <div class="tldr-box" style="margin-top: 2rem;">
+                        <p style="font-size:0.8rem; color:var(--col-text-muted);"><strong>अस्वीकरण:</strong> ऊपर दिए गए लिंक बाहरी वेबसाइटों के हैं। यह गाइड केवल शैक्षिक उद्देश्य के लिए है।</p>
+                    </div>
+                `,
+                gu: `
+                    <span class="chapter-label">સ્ત્રોત</span>
+                    <h1>સંદર્ભ અને ગ્રંથસૂચિ (Bibliography)</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2073&auto=format&fit=crop" alt="Open book with glasses on a wooden table">
+                    </div>
+
+                    <p>આ માર્ગદર્શિકામાં આપેલી માહિતી સંશોધન, મનોવૈજ્ઞાનિક અભ્યાસ અને સર્વેક્ષણો પર આધારિત છે. અહીં મુખ્ય સ્ત્રોતો આપેલા છે:</p>
+
+                    <h3>1. Gen-Z ની ઓળખ</h3>
+                    <a href="https://www.pewresearch.org/topic/generations-and-age/generations/generation-z/" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Pew Research Center: Gen Z માહિતી
+                    </a>
+                    <a href="https://www.mckinsey.com/featured-insights/mckinsey-explainers/what-is-gen-z" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> McKinsey & Company: Gen Z રિપોર્ટ
+                    </a>
+
+                    <h3>2. માનસિક સ્વાસ્થ્ય</h3>
+                    <a href="https://scholar.google.com/scholar?q=generation+z+mental+health" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Google Scholar: શૈક્ષણિક સંશોધન પેપર્સ
+                    </a>
+
+                    <h3>3. કરિયર અને નોકરી</h3>
+                    <a href="https://hbr.org/topic/generational-issues" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Harvard Business Review: પેઢીગત સમસ્યાઓ
+                    </a>
+                    <a href="https://timesofindia.indiatimes.com/topic/Gen-Z" target="_blank" class="ref-link">
+                        <i class="fa-solid fa-link"></i> Times of India: Gen Z સમાચાર
+                    </a>
+
+                    <div class="tldr-box" style="margin-top: 2rem;">
+                        <p style="font-size:0.8rem; color:var(--col-text-muted);"><strong>ડિસ્ક્લેમર:</strong> ઉપર આપેલી લિંક અન્ય વેબસાઇટ્સની છે. આ માર્ગદર્શિકા માત્ર શિક્ષણ અને સમજણ માટે છે.</p>
+                    </div>
+                `
+            },
+            videos: {
+                en: `
+                    <span class="chapter-label">Resources</span>
+                    <h1>Video Library</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2074&auto=format&fit=crop" alt="Tablet displaying video content">
+                    </div>
+
+                    <p>Curated videos to explain these concepts visually.</p>
+
+                    <h3 style="margin-top:2rem">1. Who is Gen-Z?</h3>
+                    <a href="https://www.youtube.com/watch?v=xgGlEG-bdmM" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Hindi:</strong> Gen Z Explained (1997-2012)
+                            <div style="font-size:0.85rem; color:var(--col-text-muted)">Detailed breakdown of the generation.</div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=no0VUsLcT-w" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Gujarati:</strong> What is Gen Z?
+                            <div style="font-size:0.85rem; color:var(--col-text-muted)">Meaning and characteristics in Gujarati.</div>
+                        </div>
+                    </a>
+
+                    <h3 style="margin-top:2rem">2. Career & Struggle</h3>
+                    <a href="https://www.youtube.com/watch?v=JCM0oqbMyjc" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Hindi:</strong> Why Gen Z is Struggling in Career?
+                            <div style="font-size:0.85rem; color:var(--col-text-muted)">Ankur Warikoo explains the career mindset.</div>
+                        </div>
+                    </a>
+
+                    <h3 style="margin-top:2rem">3. Dating & Trends</h3>
+                    <a href="https://www.youtube.com/watch?v=cINgrda5fTM" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Hindi:</strong> Trending Dating Words (2024)
+                            <div style="font-size:0.85rem; color:var(--col-text-muted)">Ghosting, Red Flags, Situationships explained.</div>
+                        </div>
+                    </a>
+                `,
+                hi: `
+                      <span class="chapter-label">संसाधन</span>
+                    <h1>वीडियो लाइब्रेरी</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2074&auto=format&fit=crop" alt="Tablet displaying video content">
+                    </div>
+
+                    <p>इन वीडियो के जरिए इन विषयों को और गहराई से समझें।</p>
+
+                    <h3 style="margin-top:2rem">1. Gen-Z कौन है?</h3>
+                    <a href="https://www.youtube.com/watch?v=xgGlEG-bdmM" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Hindi:</strong> Gen Z क्या है? (पूरी जानकारी)
+                        </div>
+                    </a>
+
+                    <h3 style="margin-top:2rem">2. करियर और संघर्ष</h3>
+                    <a href="https://www.youtube.com/watch?v=JCM0oqbMyjc" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Hindi:</strong> Gen Z करियर में परेशान क्यों है?
+                            <div style="font-size:0.85rem; color:var(--col-text-muted)">अंकुर वारिकू द्वारा समझाया गया।</div>
+                        </div>
+                    </a>
+
+                    <h3 style="margin-top:2rem">3. डेटिंग शब्द</h3>
+                    <a href="https://www.youtube.com/watch?v=cINgrda5fTM" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Hindi:</strong> डेटिंग के नए शब्द (Ghosting, etc.)
+                        </div>
+                    </a>
+                `,
+                gu: `
+                    <span class="chapter-label">રિસોર્સ</span>
+                    <h1>વિડિઓ લાઈબ્રેરી</h1>
+
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2074&auto=format&fit=crop" alt="Tablet displaying video content">
+                    </div>
+                    
+                    <h3 style="margin-top:2rem">1. Gen-Z એટલે શું?</h3>
+                    <a href="https://www.youtube.com/watch?v=no0VUsLcT-w" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Gujarati:</strong> Gen Z ની સમજૂતી
+                        </div>
+                    </a>
+                    
+                    <h3 style="margin-top:2rem">2. ફેમિનિઝમ</h3>
+                    <a href="https://www.youtube.com/watch?v=6pEXcBRqoOU" target="_blank" class="video-btn">
+                        <i class="fa-brands fa-youtube"></i>
+                        <div>
+                            <strong>Gujarati:</strong> ફેમિનિઝમનો અર્થ શું છે?
+                        </div>
+                    </a>
+                `
+            }
+        };
+        
+        // --- ROLEPLAY DOJO DATA ---
+        // Multilingual Scenarios
+        const dojoData = [
+            {
+                id: 1,
+                title: "Career Pivot",
+                user: {
+                    en: "I want to quit my engineering job. It's too stressful and I want to try being a travel vlogger.",
+                    hi: "मुझे अपनी इंजीनियरिंग की नौकरी छोड़नी है। बहुत तनाव है। मैं ट्रैवल व्लॉगर बनना चाहता हूँ।",
+                    gu: "મારે મારી એન્જિનિયરિંગની જોબ છોડવી છે. બહુ સ્ટ્રેસ છે, મારે ટ્રાવેલ વ્લોગર બનવું છે."
+                },
+                options: [
+                    {
+                        text: { en: "Are you mad? We spent lakhs on your degree!", hi: "पागल हो गए हो? तुम्हारी डिग्री पर लाखों खर्च किए हैं!", gu: "ગાંડો થઈ ગયો છે? તારી ડિગ્રી પાછળ લાખો બગાડ્યા છે!" },
+                        type: "negative",
+                        feedback: {
+                            en: "🔴 <strong>Result: Shut Down.</strong><br>They feel guilty and angry. They might quit anyway but won't tell you their plans.",
+                            hi: "🔴 <strong>परिणाम: बातचीत बंद।</strong><br>उन्हें अपराधबोध और गुस्सा महसूस होगा। वे शायद नौकरी छोड़ भी दें, पर आपको बताएंगे नहीं।",
+                            gu: "🔴 <strong>પરિણામ: વાતચીત બંધ.</strong><br>તેમને અપરાધભાવ અને ગુસ્સો આવશે. તેઓ કદાચ નોકરી છોડી દેશે પણ તમને કહેશે નહિ."
+                        }
+                    },
+                    {
+                        text: { en: "Okay, but how will you earn money?", hi: "ठीक है, पर पैसे कैसे कमाओगे?", gu: "સારું, પણ પૈસા કેવી રીતે કમાઈશ?" },
+                        type: "neutral",
+                        feedback: {
+                            en: "🟡 <strong>Result: Neutral.</strong><br>A logical question, but feels a bit unsupportive right now. Better than shouting.",
+                            hi: "🟡 <strong>परिणाम: ठीक-ठाक।</strong><br>तार्किक सवाल है, लेकिन अभी थोड़ा असहयोगी लगता है। चिल्लाने से बेहतर है।",
+                            gu: "🟡 <strong>પરિણામ: મધ્યમ.</strong><br>લોજીકલ સવાલ છે, પણ અત્યારે થોડો નિરાશાજનક લાગે છે. બૂમો પાડવા કરતા સારું છે."
+                        }
+                    },
+                    {
+                        text: { en: "That sounds scary but exciting. Show me your plan.", hi: "यह डरावना पर मजेदार लग रहा है। अपना प्लान बताओ।", gu: "આ સાંભળીને ડર લાગે છે પણ ગમે એવું છે. તારો પ્લાન બતાવ." },
+                        type: "positive",
+                        feedback: {
+                            en: "🟢 <strong>Result: Trust Built.</strong><br>You positioned yourself as a partner, not a boss. They will listen to your advice now.",
+                            hi: "🟢 <strong>परिणाम: भरोसा बना।</strong><br>आप बॉस नहीं, साथी बने। अब वे आपकी सलाह सुनेंगे।",
+                            gu: "🟢 <strong>પરિણામ: વિશ્વાસ વધ્યો.</strong><br>તમે બોસ નહિ, મિત્ર બન્યા. હવે તેઓ તમારી સલાહ માનશે."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Dating confession",
+                user: {
+                    en: "I met someone on Instagram. We are dating.",
+                    hi: "मैं इंस्टाग्राम पर किसी से मिला/मिली। हम डेट कर रहे हैं।",
+                    gu: "હું ઇન્સ્ટાગ્રામ પર કોઈને મળ્યો/મળી. અમે ડેટિંગ કરી રહ્યા છીએ."
+                },
+                options: [
+                    {
+                        text: { en: "Social media? It's all fake! Block them.", hi: "सोशल मीडिया? सब झूठ है! ब्लॉक करो उसे।", gu: "સોશિયલ મીડિયા? બધું ખોટું હોય! બ્લોક કર એને." },
+                        type: "negative",
+                        feedback: {
+                            en: "🔴 <strong>Result: Secrecy.</strong><br>They will continue dating but will hide it from you. You lost oversight.",
+                            hi: "🔴 <strong>परिणाम: छिपाना।</strong><br>वे मिलना जारी रखेंगे लेकिन आपसे छिपाएंगे। आपने निगरानी खो दी।",
+                            gu: "🔴 <strong>પરિણામ: છુપાવવું.</strong><br>તેઓ મળવાનું ચાલુ રાખશે પણ તમારાથી છુપાવશે."
+                        }
+                    },
+                    {
+                        text: { en: "Be careful, there are many frauds online.", hi: "सावधान रहना, ऑनलाइन बहुत धोखे होते हैं।", gu: "ધ્યાન રાખજે, ઓનલાઈન બહુ ફ્રોડ થાય છે." },
+                        type: "neutral",
+                        feedback: {
+                            en: "🟡 <strong>Result: Okay.</strong><br>Good advice, but sounds like a lecture.",
+                            hi: "🟡 <strong>परिणाम: ठीक है।</strong><br>अच्छी सलाह है, लेकिन भाषण जैसी लगती है।",
+                            gu: "🟡 <strong>પરિણામ: ઠીક છે.</strong><br>સલાહ સારી છે, પણ ભાષણ જેવું લાગે છે."
+                        }
+                    },
+                    {
+                        text: { en: "Oh really? What are they like? Show me a photo.", hi: "अच्छा? वो कैसे हैं? फोटो दिखाओ।", gu: "અરે વાહ! કેવા છે એ? ફોટો બતાવ." },
+                        type: "positive",
+                        feedback: {
+                            en: "🟢 <strong>Result: Connection.</strong><br>By showing interest instead of fear, you keep the door open for safety conversations.",
+                            hi: "🟢 <strong>परिणाम: जुड़ाव।</strong><br>डर के बजाय रुचि दिखाकर, आपने सुरक्षा पर बात करने का रास्ता खोल दिया।",
+                            gu: "🟢 <strong>પરિણામ: સંબંધ.</strong><br>ડરવાને બદલે રસ દાખવીને તમે ભવિષ્યની વાતચીતનો રસ્તો ખુલ્લો રાખ્યો."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Mental Health",
+                user: {
+                    en: "I feel empty and anxious all the time. I think I need therapy.",
+                    hi: "मुझे हर वक्त खालीपन और घबराहट महसूस होती है। मुझे थेरेपी की जरुरत है।",
+                    gu: "મને સતત ગભરાટ અને ખાલીપો લાગે છે. મારે ડોક્ટર (થેરાપિસ્ટ) પાસે જવું છે."
+                },
+                options: [
+                    {
+                        text: { en: "Stop looking at the phone, you will be fine.", hi: "फोन देखना बंद करो, सब ठीक हो जाएगा।", gu: "ફોન મૂકી દે એટલે બધું મટી જશે." },
+                        type: "negative",
+                        feedback: {
+                            en: "🔴 <strong>Result: Isolation.</strong><br>You dismissed their pain. Next time, they will suffer alone.",
+                            hi: "🔴 <strong>परिणाम: अकेलापन।</strong><br>आपने उनके दर्द को खारिज कर दिया। अगली बार वे अकेले सहेंगे।",
+                            gu: "🔴 <strong>પરિણામ: એકલતા.</strong><br>તમે તેમનું દુઃખ નકાર્યું. હવે તેઓ તમને કઈ નહિ કહે."
+                        }
+                    },
+                    {
+                        text: { en: "Just wake up early and do Yoga.", hi: "सुबह जल्दी उठो और योग करो।", gu: "સવારે વહેલા ઉઠીને યોગ કર." },
+                        type: "neutral",
+                        feedback: {
+                            en: "🟡 <strong>Result: Frustration.</strong><br>Yoga helps, but it's not a cure for clinical anxiety.",
+                            hi: "🟡 <strong>परिणाम: निराशा।</strong><br>योग अच्छा है, लेकिन यह बीमारी का इलाज नहीं है।",
+                            gu: "🟡 <strong>પરિણામ: નિરાશા.</strong><br>યોગ સારો છે, પણ એ કોઈ દવા નથી."
+                        }
+                    },
+                    {
+                        text: { en: "Thank you for telling me. Let's find a good doctor.", hi: "बताने के लिए शुक्रिया। चलो अच्छा डॉक्टर ढूंढते हैं।", gu: "મને કહેવા બદલ આભાર. ચાલ આપણે સારા ડોક્ટર શોધીએ." },
+                        type: "positive",
+                        feedback: {
+                            en: "🟢 <strong>Result: Relief.</strong><br>Validation is the best medicine. They feel safe with you.",
+                            hi: "🟢 <strong>परिणाम: राहत।</strong><br>उनकी बात मानना ही सबसे बड़ी दवा है। वे सुरक्षित महसूस करेंगे।",
+                            gu: "🟢 <strong>પરિણામ: રાહત.</strong><br>તેમની વાત સ્વીકારવી એ જ મોટી દવા છે."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Privacy / Closed Door",
+                user: {
+                    en: "(They have locked their room door for 3 hours)",
+                    hi: "(उन्होंने 3 घंटे से कमरे का दरवाजा बंद कर रखा है)",
+                    gu: "(તેમણે 3 કલાકથી રૂમનો દરવાજો બંધ રાખ્યો છે)"
+                },
+                options: [
+                    {
+                        text: { en: "(Bang on door) Open right now! What are you hiding?", hi: "(दरवाजा पीटना) अभी खोलो! क्या छिपा रहे हो?", gu: "(દરવાજો ખખડાવવો) અત્યારે જ ખોલ! શું સંતાડે છે?" },
+                        type: "negative",
+                        feedback: {
+                            en: "🔴 <strong>Result: Invasion.</strong><br>They will feel attacked and will become more secretive.",
+                            hi: "🔴 <strong>परिणाम: हमला।</strong><br>उन्हें लगेगा कि आप जासूसी कर रहे हैं और वे और दूर हो जाएंगे।",
+                            gu: "🔴 <strong>પરિણામ: આક્રમણ.</strong><br>તેમને લાગશે કે તમે જાસૂસી કરો છો."
+                        }
+                    },
+                    {
+                        text: { en: "(Knock gently) Are you okay in there?", hi: "(आराम से खटखटाना) क्या तुम ठीक हो?", gu: "(શાંતિથી ખખડાવવું) બેટા, બધું બરાબર છે ને?" },
+                        type: "neutral",
+                        feedback: {
+                            en: "🟡 <strong>Result: Caring but intrusive.</strong><br>Shows care, but might still annoy them if they need space.",
+                            hi: "🟡 <strong>परिणाम: परवाह।</strong><br>परवाह दिखती है, लेकिन अगर उन्हें जगह चाहिए तो वे चिढ़ सकते हैं।",
+                            gu: "🟡 <strong>પરિણામ: ચિંતા.</strong><br>સારી વાત છે, પણ કદાચ તેમને એકલા રહેવું હોય."
+                        }
+                    },
+                    {
+                        text: { en: "(Text them) 'Dinner is ready whenever you want to come out.'", hi: "(मैसेज करना) 'जब मन हो आ जाना, खाना तैयार है।'", gu: "(મેસેજ કરવો) 'જમવાનું તૈયાર છે, ઈચ્છા થાય ત્યારે આવજે.'" },
+                        type: "positive",
+                        feedback: {
+                            en: "🟢 <strong>Result: Respect.</strong><br>You respected their boundary. They will come out happier.",
+                            hi: "🟢 <strong>परिणाम: सम्मान।</strong><br>आपने उनकी सीमा का सम्मान किया। वे खुशी से बाहर आएंगे।",
+                            gu: "🟢 <strong>પરિણામ: આદર.</strong><br>તમે તેમની પ્રાઈવસી સાચવી. તેઓ ખુશ થઈને બહાર આવશે."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Religious/Cultural Clash",
+                user: {
+                    en: "I don't want to follow this ritual. It makes no scientific sense.",
+                    hi: "मैं यह रस्म नहीं निभाना चाहता। इसका कोई वैज्ञानिक मतलब नहीं है।",
+                    gu: "મારે આ વિધિ નથી કરવી. આનો કોઈ વૈજ્ઞાનિક અર્થ નથી."
+                },
+                options: [
+                    {
+                        text: { en: "Don't argue! You are destroying our culture.", hi: "बहस मत करो! तुम हमारी संस्कृति बर्बाद कर रहे हो।", gu: "સામે ન બોલ! તું આપણા સંસ્કાર ભૂલી ગયો છે." },
+                        type: "negative",
+                        feedback: {
+                            en: "🔴 <strong>Result: Rebellion.</strong><br>Forcing beliefs creates atheists. They will hate the ritual even more.",
+                            hi: "🔴 <strong>परिणाम: विद्रोह।</strong><br>जबरदस्ती करने से वे धर्म से और दूर हो जाएंगे।",
+                            gu: "🔴 <strong>પરિણામ: બળવો.</strong><br>જબરદસ્તી કરવાથી તેઓ ધર્મથી દૂર ભાગશે."
+                        }
+                    },
+                    {
+                        text: { en: "Just do it for 5 minutes for my happiness.", hi: "बस मेरी खुशी के लिए 5 मिनट कर लो।", gu: "મારા માટે ખાલી 5 મિનિટ કરી લે." },
+                        type: "neutral",
+                        feedback: {
+                            en: "🟡 <strong>Result: Compromise.</strong><br>They might do it, but resentfully.",
+                            hi: "🟡 <strong>परिणाम: समझौता।</strong><br>वे कर लेंगे, लेकिन मन से नहीं।",
+                            gu: "🟡 <strong>પરિણામ: બાંધછોડ.</strong><br>તેઓ કરશે, પણ પરાણે."
+                        }
+                    },
+                    {
+                        text: { en: "I respect your view. You don't have to force it.", hi: "मैं तुम्हारे विचार का सम्मान करता हूँ। जबरदस्ती नहीं है।", gu: "હું તારા વિચારનું માન રાખું છું. તારે પરાણે કરવાની જરૂર નથી." },
+                        type: "positive",
+                        feedback: {
+                            en: "🟢 <strong>Result: Mutual Respect.</strong><br>Paradoxically, when you don't force, they might actually participate later out of love.",
+                            hi: "🟢 <strong>परिणाम: सम्मान।</strong><br>जब आप जबरदस्ती नहीं करते, तो वे शायद बाद में प्यार से खुद शामिल हो जाएं।",
+                            gu: "🟢 <strong>પરિણામ: આદર.</strong><br>જ્યારે તમે દબાણ નથી કરતા, ત્યારે તેઓ કદાચ પ્રેમથી જાતે જ જોડાશે."
+                        }
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Coming Home Late",
+                user: {
+                    en: "(Coming home at 2 AM after a party)",
+                    hi: "(पार्टी के बाद रात 2 बजे घर आना)",
+                    gu: "(પાર્ટી કરીને રાત્રે 2 વાગે ઘરે આવવું)"
+                },
+                options: [
+                    {
+                        text: { en: "Get out! Is this a hotel?", hi: "निकल जाओ! क्या यह होटल है?", gu: "નીકળ બહાર! આ શું ધર્મશાળા છે?" },
+                        type: "negative",
+                        feedback: {
+                            en: "🔴 <strong>Result: Danger.</strong><br>Next time they won't come home at all, which is unsafe.",
+                            hi: "🔴 <strong>परिणाम: खतरा।</strong><br>अगली बार वे घर आएंगे ही नहीं, जो और खतरनाक है।",
+                            gu: "🔴 <strong>પરિણામ: જોખમ.</strong><br>બીજી વાર તેઓ ઘરે આવશે જ નહિ, જે વધુ ખતરનાક છે."
+                        }
+                    },
+                    {
+                        text: { en: "I was scared. Go to sleep, we talk tomorrow.", hi: "मैं डर गया था। सो जाओ, कल बात करेंगे।", gu: "હું ડરી ગયો હતો. સુઈ જા, કાલે વાત." },
+                        type: "positive",
+                        feedback: {
+                            en: "🟢 <strong>Result: Safety First.</strong><br>You prioritized their safety over your anger. The lesson will be better learned in the morning.",
+                            hi: "🟢 <strong>परिणाम: सुरक्षा।</strong><br>आपने गुस्से से ज्यादा सुरक्षा को महत्व दिया। सुबह बात करना बेहतर होगा।",
+                            gu: "🟢 <strong>પરિણામ: સુરક્ષા.</strong><br>ગુસ્સા કરતા સુરક્ષા મહત્વની છે. સવારે શાંતિથી વાત થશે."
+                        }
+                    }
+                ]
+            }
+        ];
+
+        let currentScenarioIndex = 0;
+
+        function initDojo() {
+            currentScenarioIndex = 0;
+            renderScenario(0);
+        }
+
+        function renderScenario(index) {
+            const screen = document.getElementById('dojo-screen');
+            const controls = document.getElementById('dojo-controls');
+            
+            if (!screen || !controls) return; 
+
+            screen.innerHTML = '';
+            controls.innerHTML = '';
+
+            const scenario = dojoData[index];
+            const lang = currentLang; // Uses global state
+
+            // Scenario Title (Internal Logic Check)
+            // Ideally title could also be localized if structure allows, staying simple for now
+
+            // Add Child Bubble
+            const bubble = document.createElement('div');
+            bubble.className = 'chat-bubble received';
+            // Fallback to English if translation missing (safety)
+            const userText = scenario.user[lang] || scenario.user['en'];
+            bubble.innerHTML = `<strong>Gen-Z:</strong><br>${userText}`;
+            screen.appendChild(bubble);
+
+            // Add Options
+            scenario.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt.text[lang] || opt.text['en'];
+                btn.onclick = () => showFeedback(opt, screen, controls, index, lang);
+                controls.appendChild(btn);
+            });
+
+            // Navigation Buttons Container
+            const navDiv = document.createElement('div');
+            navDiv.className = 'dojo-nav';
+
+            // PREVIOUS Button
+            if (index > 0) {
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'nav-btn-dojo secondary';
+                prevBtn.innerText = lang === 'hi' ? "← पिछला" : (lang === 'gu' ? "← પાછળ" : "← Previous");
+                prevBtn.onclick = () => {
+                    currentScenarioIndex--;
+                    renderScenario(currentScenarioIndex);
+                };
+                navDiv.appendChild(prevBtn);
+            }
+            
+            controls.appendChild(navDiv);
+        }
+
+        function showFeedback(option, screen, controls, index, lang) {
+            // Add Parent Bubble
+            const response = document.createElement('div');
+            response.className = 'chat-bubble sent';
+            response.innerText = option.text[lang] || option.text['en'];
+            screen.appendChild(response);
+            
+            screen.scrollTop = screen.scrollHeight;
+
+            controls.innerHTML = '';
+            
+            const feedbackBox = document.createElement('div');
+            feedbackBox.className = `dojo-feedback ${option.type}`;
+            // Apply neutral style manually if needed or rely on class
+            if(option.type === 'neutral') {
+                feedbackBox.style.background = '#fff3cd';
+                feedbackBox.style.color = '#856404';
+                feedbackBox.style.border = '1px solid #ffeeba';
+            }
+
+            feedbackBox.innerHTML = option.feedback[lang] || option.feedback['en'];
+            feedbackBox.style.display = 'block';
+            controls.appendChild(feedbackBox);
+
+            // Navigation Container
+            const navDiv = document.createElement('div');
+            navDiv.className = 'dojo-nav';
+
+            // RESTART / PREV / NEXT Logic
+            // Previous button allows checking other options for SAME scenario here? 
+            // Or go back to start? Let's keep it simple: "Retry this" or "Next"
+            
+            const retryBtn = document.createElement('button');
+            retryBtn.className = 'nav-btn-dojo secondary';
+            retryBtn.innerText = lang === 'hi' ? "दुबारा कोशिश करें" : (lang === 'gu' ? "ફરીથી પ્રયાસ કરો" : "Retry Scenario");
+            retryBtn.onclick = () => renderScenario(index);
+            navDiv.appendChild(retryBtn);
+
+            if (index < dojoData.length - 1) {
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'nav-btn-dojo';
+                nextBtn.innerText = lang === 'hi' ? "अगला →" : (lang === 'gu' ? "આગળ →" : "Next →");
+                nextBtn.onclick = () => {
+                    currentScenarioIndex++;
+                    renderScenario(currentScenarioIndex);
+                };
+                navDiv.appendChild(nextBtn);
+            } else {
+                const finishBtn = document.createElement('button');
+                finishBtn.className = 'nav-btn-dojo';
+                finishBtn.innerText = lang === 'hi' ? "शुरू से करें" : (lang === 'gu' ? "શરૂઆતથી કરો" : "Start Over");
+                finishBtn.onclick = () => initDojo();
+                navDiv.appendChild(finishBtn);
+            }
+            
+            controls.appendChild(navDiv);
+        }
+
+        // --- CORE APP LOGIC ---
+        let currentLang = 'en';
+        let currentPage = 'home';
+
+        // Initialize
+        window.onload = () => {
+            // Check Local Storage for Theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcons(savedTheme);
+
+            loadPage('home');
+            window.addEventListener('scroll', updateProgressBar);
+        };
+
+        // Font Adjustment Logic
+        let fontStep = 0; // 0 = default (17px)
+        function adjustFont(step) {
+            const root = document.body;
+            // Base is 17px. 
+            // Range: -2 (15px) to +4 (21px)
+            fontStep += step;
+            if (fontStep < -2) fontStep = -2;
+            if (fontStep > 4) fontStep = 4;
+            
+            const newSize = 17 + fontStep;
+            root.style.fontSize = `${newSize}px`;
+        }
+
+        // Theme Toggle Function
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeIcons(newTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            const iconClass = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            document.getElementById('theme-icon-desk').className = `fa-solid ${iconClass}`;
+            document.getElementById('theme-icon-mob').className = `fa-solid ${iconClass}`;
+        }
+
+        // Progress Bar Update
+        function updateProgressBar() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        }
+
+        // Page Loader
+        function loadPage(pageKey) {
+            currentPage = pageKey;
+            
+            // Highlight Menu Item
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const activeItem = document.querySelector(`.nav-item[onclick="loadPage('${pageKey}')"]`);
+            if(activeItem) activeItem.classList.add('active');
+
+            // Fetch Content
+            const contentObj = db[pageKey];
+            // If pageKey is missing in DB (e.g. dynamic dojo), handle it
+            let htmlContent = '';
+            
+            if (contentObj) {
+                htmlContent = contentObj[currentLang] || contentObj['en'];
+            } else if (pageKey === 'dojo') {
+                // Fallback if dojo content isn't in db object but handled dynamically
+                // But we put dojo intro text in db.dojo above.
+            }
+
+            // Render with Animation
+            const display = document.getElementById('content-display');
+            display.style.opacity = '0';
+            display.style.transform = 'translateY(15px)';
+
+            setTimeout(() => {
+                // Update Typography Classes
+                document.body.classList.remove('lang-hi', 'lang-gu');
+                if(currentLang === 'hi') document.body.classList.add('lang-hi');
+                if(currentLang === 'gu') document.body.classList.add('lang-gu');
+
+                display.innerHTML = htmlContent;
+                display.classList.remove('fade-in');
+                void display.offsetWidth; // Trigger reflow
+                display.classList.add('fade-in');
+                display.style.opacity = '1';
+                display.style.transform = 'translateY(0)';
+                window.scrollTo(0,0);
+                updateProgressBar(); // Reset progress bar
+
+                // Initialize Dojo if needed
+                if(pageKey === 'dojo') {
+                    initDojo();
+                }
+
+            }, 200);
+
+            // Close Mobile Menu if open
+            if(window.innerWidth <= 992) {
+                const sidebar = document.getElementById('sidebar');
+                if(sidebar.classList.contains('open')) toggleMenu();
+            }
+        }
+
+        // Language Switcher
+        function changeLang(lang) {
+            currentLang = lang;
+            
+            // Update Buttons (Mobile & Desktop)
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const mobBtn = document.getElementById(`mob-${lang}`);
+            const deskBtn = document.getElementById(`desk-${lang}`);
+            if(mobBtn) mobBtn.classList.add('active');
+            if(deskBtn) deskBtn.classList.add('active');
+
+            // Reload current page with new language
+            // If in dojo, re-render the current scenario to switch language immediately
+            if (currentPage === 'dojo') {
+                // Re-render whole page structure first to update intro text
+                const contentObj = db['dojo'];
+                const display = document.getElementById('content-display');
+                if(contentObj) display.innerHTML = contentObj[currentLang] || contentObj['en'];
+                // Then re-init dojo logic at current index
+                renderScenario(currentScenarioIndex);
+            } else {
+                loadPage(currentPage);
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const fontControlsMob = document.querySelector('.font-controls-mob');
+            
+            if(sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                overlay.style.display = 'none';
+                if(fontControlsMob) fontControlsMob.style.display = 'none';
+            } else {
+                sidebar.classList.add('open');
+                overlay.style.display = 'block';
+                if(fontControlsMob) fontControlsMob.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
