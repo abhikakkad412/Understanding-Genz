@@ -457,6 +457,35 @@
         /* Animation */
         .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- NEW: CHAPTER NAVIGATION BUTTONS --- */
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--col-border);
+            gap: 10px;
+        }
+        .nav-btn-chapter {
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: var(--col-card);
+            border: 1px solid var(--col-border);
+            color: var(--col-primary);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: 0.2s;
+            box-shadow: var(--shadow-soft);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .nav-btn-chapter:hover {
+            background: var(--col-accent-bg);
+            border-color: var(--col-secondary);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -513,7 +542,8 @@
                 <li class="nav-item" onclick="loadPage('videos')"><i class="fa-brands fa-youtube"></i> Video Resources</li>
             </ul>
         </nav>
-<main class="main-wrapper">
+        
+        <main class="main-wrapper">
             <div class="utility-bar" id="desktop-utility">
                 <div class="font-controls">
                     <button class="icon-btn" onclick="adjustFont(-1)" title="Decrease Text Size" style="width:35px; height:35px; font-size:0.9rem;"><i class="fa-solid fa-minus"></i></button>
@@ -538,7 +568,7 @@
     </div>
 
     <script>
-        // --- COMPLETE CONTENT DATABASE ---
+// --- COMPLETE CONTENT DATABASE ---
         const db = {
             home: {
                 en: `
@@ -2317,9 +2347,7 @@ ch11: {
                 `
             }
         };
-        
-        // --- ROLEPLAY DOJO DATA ---
-        // Multilingual Scenarios
+// --- ROLEPLAY DOJO DATA ---
         const dojoData = [
             {
                 id: 1,
@@ -2501,7 +2529,7 @@ ch11: {
                         }
                     },
                     {
-                        text: { en: "I respect your view. You don't have to force it.", hi: "मैं तुम्हारे विचार का सम्मान करता हूँ। जबरदस्ती नहीं है।", gu: "હું તારા વિચારનું માન રાખું છું. તારે પરાણે કરવાની જરૂર નથી." },
+                        text: { en: "I respect your view. You don't have to force it.", hi: "मैं तुम्हारे विचार का सम्मान करता हूँ। जबरदस्ती नहीं है।", gu: "હું તારા વિચારનું માન રાખું છું. તારે પરાણે કરવાની જરૂર નથી।", },
                         type: "positive",
                         feedback: {
                             en: "🟢 <strong>Result: Mutual Respect.</strong><br>Paradoxically, when you don't force, they might actually participate later out of love.",
@@ -2541,8 +2569,113 @@ ch11: {
                 ]
             }
         ];
-let currentScenarioIndex = 0;
 
+        // --- APP STATE & NAVIGATION ORDER ---
+        let currentLang = 'en';
+        let currentPage = 'home';
+        let currentScenarioIndex = 0;
+        let fontStep = 0;
+
+        // 🔹 TASK 1: Chapter Order
+        const chapterOrder = [
+            'home', 
+            'dojo', 
+            'ch1', 'ch2', 'ch3', 'ch4', 'ch5', 
+            'ch6', 'ch7', 'ch8', 'ch9', 'ch10', 
+            'ch11', 'bib', 'videos'
+        ];
+
+        const navLabels = {
+            en: { prev: "← Previous Chapter", next: "Next Chapter →" },
+            hi: { prev: "← पिछला अध्याय", next: "अगला अध्याय →" },
+            gu: { prev: "← પાછળનું પ્રકરણ", next: "આગળનું પ્રકરણ →" }
+        };
+
+        // --- CORE FUNCTIONS ---
+
+        function loadPage(pageKey) {
+            currentPage = pageKey;
+            
+            // 1. Highlight Menu Item
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const activeItem = document.querySelector(`.nav-item[onclick="loadPage('${pageKey}')"]`);
+            if(activeItem) activeItem.classList.add('active');
+
+            // 2. Fetch Content
+            const contentObj = db[pageKey];
+            let htmlContent = '';
+            
+            if (contentObj) {
+                htmlContent = contentObj[currentLang] || contentObj['en'];
+                
+                // 🔹 TASK 1: ADD NAVIGATION BUTTONS
+                htmlContent += getNavButtonsHTML(pageKey);
+            } 
+
+            // 3. Render with Animation
+            const display = document.getElementById('content-display');
+            display.style.opacity = '0';
+            display.style.transform = 'translateY(15px)';
+
+            setTimeout(() => {
+                // Update Typography Classes
+                document.body.classList.remove('lang-hi', 'lang-gu');
+                if(currentLang === 'hi') document.body.classList.add('lang-hi');
+                if(currentLang === 'gu') document.body.classList.add('lang-gu');
+
+                display.innerHTML = htmlContent;
+                display.classList.remove('fade-in');
+                void display.offsetWidth; // Trigger reflow
+                display.classList.add('fade-in');
+                display.style.opacity = '1';
+                display.style.transform = 'translateY(0)';
+                window.scrollTo(0,0);
+                updateProgressBar();
+
+                // Initialize Dojo if needed
+                if(pageKey === 'dojo') {
+                    initDojo();
+                }
+
+            }, 200);
+
+            // 4. Close Mobile Menu if open
+            if(window.innerWidth <= 992) {
+                const sidebar = document.getElementById('sidebar');
+                if(sidebar.classList.contains('open')) toggleMenu();
+            }
+        }
+
+        // 🔹 HELPER: Generate Navigation Buttons
+        function getNavButtonsHTML(pageId) {
+            const index = chapterOrder.indexOf(pageId);
+            if (index === -1) return ''; // Page not in sequence
+
+            const prevLabel = navLabels[currentLang].prev;
+            const nextLabel = navLabels[currentLang].next;
+            let html = '<div class="chapter-nav">';
+
+            // Previous Button
+            if (index > 0) {
+                const prevPage = chapterOrder[index - 1];
+                html += `<button class="nav-btn-chapter" onclick="loadPage('${prevPage}')">${prevLabel}</button>`;
+            } else {
+                html += `<div></div>`; // Spacer
+            }
+
+            // Next Button
+            if (index < chapterOrder.length - 1) {
+                const nextPage = chapterOrder[index + 1];
+                html += `<button class="nav-btn-chapter" onclick="loadPage('${nextPage}')">${nextLabel}</button>`;
+            } else {
+                html += `<div></div>`; // Spacer
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // --- DOJO LOGIC ---
         function initDojo() {
             currentScenarioIndex = 0;
             renderScenario(0);
@@ -2558,12 +2691,11 @@ let currentScenarioIndex = 0;
             controls.innerHTML = '';
 
             const scenario = dojoData[index];
-            const lang = currentLang; // Uses global state
+            const lang = currentLang; 
 
             // Add Child Bubble
             const bubble = document.createElement('div');
             bubble.className = 'chat-bubble received';
-            // Fallback to English if translation missing (safety)
             const userText = scenario.user[lang] || scenario.user['en'];
             bubble.innerHTML = `<strong>Gen-Z:</strong><br>${userText}`;
             screen.appendChild(bubble);
@@ -2577,11 +2709,11 @@ let currentScenarioIndex = 0;
                 controls.appendChild(btn);
             });
 
-            // Navigation Buttons Container
+            // Navigation Buttons Container inside Dojo
             const navDiv = document.createElement('div');
             navDiv.className = 'dojo-nav';
 
-            // PREVIOUS Button
+            // PREVIOUS Button (Dojo Internal)
             if (index > 0) {
                 const prevBtn = document.createElement('button');
                 prevBtn.className = 'nav-btn-dojo secondary';
@@ -2592,7 +2724,6 @@ let currentScenarioIndex = 0;
                 };
                 navDiv.appendChild(prevBtn);
             }
-            
             controls.appendChild(navDiv);
         }
 
@@ -2609,7 +2740,6 @@ let currentScenarioIndex = 0;
             
             const feedbackBox = document.createElement('div');
             feedbackBox.className = `dojo-feedback ${option.type}`;
-            // Apply neutral style manually if needed or rely on class
             if(option.type === 'neutral') {
                 feedbackBox.style.background = '#fff3cd';
                 feedbackBox.style.color = '#856404';
@@ -2646,147 +2776,55 @@ let currentScenarioIndex = 0;
                 finishBtn.onclick = () => initDojo();
                 navDiv.appendChild(finishBtn);
             }
-            
             controls.appendChild(navDiv);
         }
 
-        // --- CORE APP LOGIC ---
-        let currentLang = 'en';
-        let currentPage = 'home';
+        // --- UTILITIES ---
 
-        // Initialize
-        window.onload = () => {
-            // Check Local Storage for Theme
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcons(savedTheme);
-
-            loadPage('home');
-            window.addEventListener('scroll', updateProgressBar);
-        };
-
-        // Font Adjustment Logic
-        let fontStep = 0; // 0 = default (17px)
-        function adjustFont(step) {
-            const root = document.body;
-            // Base is 17px. 
-            // Range: -2 (15px) to +4 (21px)
-            fontStep += step;
-            if (fontStep < -2) fontStep = -2;
-            if (fontStep > 4) fontStep = 4;
-            
-            const newSize = 17 + fontStep;
-            root.style.fontSize = `${newSize}px`;
-        }
-
-        // Theme Toggle Function
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            updateThemeIcons(newTheme);
-        }
-
-        function updateThemeIcons(theme) {
-            const iconClass = theme === 'light' ? 'fa-moon' : 'fa-sun';
-            document.getElementById('theme-icon-desk').className = `fa-solid ${iconClass}`;
-            document.getElementById('theme-icon-mob').className = `fa-solid ${iconClass}`;
-        }
-
-        // Progress Bar Update
-        function updateProgressBar() {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-            const clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-            const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
-            document.getElementById('progress-bar').style.width = scrolled + '%';
-        }
-
-        // Page Loader
-        function loadPage(pageKey) {
-            currentPage = pageKey;
-            
-            // Highlight Menu Item
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const activeItem = document.querySelector(`.nav-item[onclick="loadPage('${pageKey}')"]`);
-            if(activeItem) activeItem.classList.add('active');
-
-            // Fetch Content
-            const contentObj = db[pageKey];
-            // If pageKey is missing in DB (e.g. dynamic dojo), handle it
-            let htmlContent = '';
-            
-            if (contentObj) {
-                htmlContent = contentObj[currentLang] || contentObj['en'];
-            } else if (pageKey === 'dojo') {
-                // Fallback if dojo content isn't in db object but handled dynamically
-                // But we put dojo intro text in db.dojo above.
-            }
-
-            // Render with Animation
-            const display = document.getElementById('content-display');
-            display.style.opacity = '0';
-            display.style.transform = 'translateY(15px)';
-
-            setTimeout(() => {
-                // Update Typography Classes
-                document.body.classList.remove('lang-hi', 'lang-gu');
-                if(currentLang === 'hi') document.body.classList.add('lang-hi');
-                if(currentLang === 'gu') document.body.classList.add('lang-gu');
-
-                display.innerHTML = htmlContent;
-                display.classList.remove('fade-in');
-                void display.offsetWidth; // Trigger reflow
-                display.classList.add('fade-in');
-                display.style.opacity = '1';
-                display.style.transform = 'translateY(0)';
-                window.scrollTo(0,0);
-                updateProgressBar(); // Reset progress bar
-
-                // Initialize Dojo if needed
-                if(pageKey === 'dojo') {
-                    initDojo();
-                }
-
-            }, 200);
-
-            // Close Mobile Menu if open
-            if(window.innerWidth <= 992) {
-                const sidebar = document.getElementById('sidebar');
-                if(sidebar.classList.contains('open')) toggleMenu();
-            }
-        }
-
-        // Language Switcher
         function changeLang(lang) {
             currentLang = lang;
             
-            // Update Buttons (Mobile & Desktop)
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            
             const mobBtn = document.getElementById(`mob-${lang}`);
             const deskBtn = document.getElementById(`desk-${lang}`);
             if(mobBtn) mobBtn.classList.add('active');
             if(deskBtn) deskBtn.classList.add('active');
 
-            // Reload current page with new language
-            // If in dojo, re-render the current scenario to switch language immediately
             if (currentPage === 'dojo') {
-                // Re-render whole page structure first to update intro text
                 const contentObj = db['dojo'];
                 const display = document.getElementById('content-display');
-                if(contentObj) display.innerHTML = contentObj[currentLang] || contentObj['en'];
-                // Then re-init dojo logic at current index
+                if(contentObj) {
+                    // We need to preserve the dojo buttons, so we only update the intro text if needed
+                    // But simpler to reload page content then init dojo
+                    let htmlContent = contentObj[currentLang] || contentObj['en'];
+                    htmlContent += getNavButtonsHTML('dojo');
+                    display.innerHTML = htmlContent;
+                }
                 renderScenario(currentScenarioIndex);
             } else {
                 loadPage(currentPage);
             }
         }
 
-        // Mobile Menu Toggle
+        function adjustFont(step) {
+            fontStep += step;
+            if (fontStep < -2) fontStep = -2;
+            if (fontStep > 4) fontStep = 4;
+            const newSize = 17 + fontStep;
+            document.body.style.fontSize = `${newSize}px`;
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const iconClass = newTheme === 'light' ? 'fa-moon' : 'fa-sun';
+            document.getElementById('theme-icon-desk').className = `fa-solid ${iconClass}`;
+            document.getElementById('theme-icon-mob').className = `fa-solid ${iconClass}`;
+        }
+
         function toggleMenu() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
@@ -2802,6 +2840,29 @@ let currentScenarioIndex = 0;
                 if(fontControlsMob) fontControlsMob.style.display = 'flex';
             }
         }
+
+        function updateProgressBar() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
+            const bar = document.getElementById('progress-bar');
+            if(bar) bar.style.width = scrolled + '%';
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const iconClass = savedTheme === 'light' ? 'fa-moon' : 'fa-sun';
+            if(document.getElementById('theme-icon-desk')) document.getElementById('theme-icon-desk').className = `fa-solid ${iconClass}`;
+            if(document.getElementById('theme-icon-mob')) document.getElementById('theme-icon-mob').className = `fa-solid ${iconClass}`;
+
+            loadPage('home');
+            window.addEventListener('scroll', updateProgressBar);
+        };
+
     </script>
 </body>
 </html>
