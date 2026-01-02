@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abhikakkad412.github.io/Understanding-Genz/sitemap.xml
