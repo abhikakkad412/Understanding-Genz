@@ -1699,6 +1699,41 @@
     box-shadow: 0 0 50px rgba(255,255,255,0.3);
   }
 
+  /* Optional intro skip control */
+  #cine-skip-btn {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    padding: 12px 18px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.78);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    transition: all 0.35s ease;
+    z-index: 1001;
+  }
+  #cine-skip-btn:hover, #cine-skip-btn:focus-visible {
+    background: rgba(255,255,255,0.95);
+    color: #000;
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  @media (max-width: 600px) {
+    #cine-skip-btn {
+      right: 18px;
+      bottom: 18px;
+      padding: 10px 14px;
+      font-size: 0.66rem;
+    }
+  }
+
   /* 4. Sequence Logic */
   .cine-seq {
     position: absolute;
@@ -1823,6 +1858,7 @@
 
 <div id="cine-root">
   <button id="cine-btn">ENTER THE EXPERIENCE</button>
+  <button id="cine-skip-btn" type="button" aria-label="Skip intro and continue to the website">SKIP INTRO</button>
 
   <div class="cine-seq" id="c-seq-1">
     <div class="cine-text-container" id="text-1"></div>
@@ -1853,6 +1889,52 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+    const INTRO_SKIP_KEY = 'understanding-genz-skip-intro';
+    const cineRoot = document.getElementById('cine-root');
+    const skipBtn = document.getElementById('cine-skip-btn');
+    let introSkipped = false;
+    let heartbeatInterval = null, montageInterval = null;
+    let audioCtx = null, droneOsc = null, droneGain = null, padOsc = null, padGain = null, padFilter = null, heartOsc = null, heartGain = null;
+    let isPlaying = false;
+    const timelineTimeouts = [];
+
+    const finishIntroImmediately = () => {
+        if (introSkipped) return;
+        introSkipped = true;
+
+        // Stop any timeline timers that may already have started.
+        if (heartbeatInterval) clearInterval(heartbeatInterval);
+        if (montageInterval) clearInterval(montageInterval);
+        timelineTimeouts.forEach(clearTimeout);
+        timelineTimeouts.length = 0;
+
+        // Stop browser audio cleanly if it was started.
+        try {
+            if (isPlaying && audioCtx) {
+                if (droneGain) droneGain.gain.setValueAtTime(0, audioCtx.currentTime);
+                if (padGain) padGain.gain.setValueAtTime(0, audioCtx.currentTime);
+                if (heartGain) heartGain.gain.setValueAtTime(0, audioCtx.currentTime);
+                if (audioCtx.state !== 'closed') audioCtx.close();
+            }
+        } catch (e) {}
+
+        document.body.classList.remove('intro-active');
+        if (skipBtn) skipBtn.remove();
+
+        // Remove the cinematic layer immediately so the real site is fully usable.
+        if (cineRoot) {
+            cineRoot.style.opacity = '0';
+            cineRoot.style.pointerEvents = 'none';
+            setTimeout(() => cineRoot.remove(), 250);
+        }
+    };
+
+    // Returning visitors who previously skipped should never be forced through the intro.
+    if (localStorage.getItem(INTRO_SKIP_KEY) === 'true') {
+        finishIntroImmediately();
+        return;
+    }
+
     document.body.classList.add('intro-active');
 
     // --- 1. Text Flow Engine ---
@@ -1952,8 +2034,6 @@ document.addEventListener("DOMContentLoaded", () => {
     build3DChaos();
 
     // --- 3. Ultra-Premium Web Audio API (Loud & Clear on all devices) ---
-    let audioCtx, droneOsc, droneGain, padOsc, padGain, padFilter, heartOsc, heartGain;
-    let isPlaying = false;
     
     function initAudio() {
         try {
@@ -2026,9 +2106,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- 4. Master Cinematic Timeline (Adjusted for Readability) ---
     const btn = document.getElementById('cine-btn');
     const getEl = id => document.getElementById(id);
-    const runAt = (time, fn) => setTimeout(fn, time);
+    const runAt = (time, fn) => {
+        const id = setTimeout(fn, time);
+        timelineTimeouts.push(id);
+        return id;
+    };
 
-    let heartbeatInterval, montageInterval;
+
+    skipBtn.addEventListener('click', () => {
+        localStorage.setItem(INTRO_SKIP_KEY, 'true');
+        finishIntroImmediately();
+    });
 
     btn.addEventListener('click', () => {
         btn.style.opacity = '0';
@@ -2153,6 +2241,7 @@ document.addEventListener("DOMContentLoaded", () => {
             runAt(5000, () => {
                 getEl('cine-root').remove();
                 if(isPlaying) { droneOsc.stop(); padOsc.stop(); heartOsc.stop(); }
+                if (skipBtn) skipBtn.remove();
             });
         });
     });
