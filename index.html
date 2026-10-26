@@ -1699,38 +1699,79 @@
     box-shadow: 0 0 50px rgba(255,255,255,0.3);
   }
 
-  /* Optional intro skip control */
-  #cine-skip-btn {
-    position: fixed;
-    right: 28px;
-    bottom: 28px;
-    padding: 12px 18px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.22);
-    color: rgba(255,255,255,0.78);
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+  /* Always-visible, high-contrast intro skip control.
+     The cinematic root is a full-viewport fixed layer; absolute positioning
+     keeps this control anchored correctly on phones, tablets, laptops and PCs. */
+  #cine-root #cine-skip-btn {
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 16px) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 16px) !important;
+    bottom: auto !important;
+    left: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 112px;
+    min-height: 44px;
+    padding: 12px 16px;
+    margin: 0;
+    background: rgba(8, 12, 11, 0.92) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.78) !important;
     border-radius: 999px;
+    color: #fff !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
     cursor: pointer;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    transition: all 0.35s ease;
-    z-index: 1001;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 2147483647 !important;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
-  #cine-skip-btn:hover, #cine-skip-btn:focus-visible {
-    background: rgba(255,255,255,0.95);
-    color: #000;
-    border-color: rgba(255,255,255,0.6);
-    transform: translateY(-2px);
-    outline: none;
+
+  #cine-root #cine-skip-btn:hover,
+  #cine-root #cine-skip-btn:focus-visible,
+  #cine-root #cine-skip-btn:active {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #fff !important;
+    outline: 3px solid rgba(255, 255, 255, 0.45);
+    outline-offset: 3px;
   }
+
   @media (max-width: 600px) {
-    #cine-skip-btn {
-      right: 18px;
-      bottom: 18px;
-      padding: 10px 14px;
-      font-size: 0.66rem;
+    #cine-root #cine-skip-btn {
+      top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+      right: calc(env(safe-area-inset-right, 0px) + 12px) !important;
+      min-width: 104px;
+      min-height: 44px;
+      padding: 11px 13px;
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 450px) {
+    #cine-root #cine-skip-btn {
+      top: calc(env(safe-area-inset-top, 0px) + 8px) !important;
+      right: calc(env(safe-area-inset-right, 0px) + 8px) !important;
+      min-height: 40px;
+      padding: 9px 12px;
     }
   }
 
@@ -1858,7 +1899,7 @@
 
 <div id="cine-root">
   <button id="cine-btn">ENTER THE EXPERIENCE</button>
-  <button id="cine-skip-btn" type="button" aria-label="Skip intro and continue to the website">SKIP INTRO</button>
+  <button id="cine-skip-btn" type="button" aria-label="Skip the cinematic intro and open the website immediately" onclick="if (!window.skipCinematicIntro) { window.__introWasRemoved = true; document.body.classList.remove('intro-active'); var introRoot = document.getElementById('cine-root'); if (introRoot && introRoot.parentNode) introRoot.parentNode.removeChild(introRoot); }">SKIP INTRO</button>
 
   <div class="cine-seq" id="c-seq-1">
     <div class="cine-text-container" id="text-1"></div>
@@ -1889,8 +1930,11 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const INTRO_SKIP_KEY = 'understanding-genz-skip-intro';
+    // The button has an inline emergency fallback in case it is clicked before
+    // this initializer runs. Never re-lock the page after that fallback fires.
+    if (window.__introWasRemoved) return;
     const cineRoot = document.getElementById('cine-root');
+    if (!cineRoot) return;
     const skipBtn = document.getElementById('cine-skip-btn');
     let introSkipped = false;
     let heartbeatInterval = null, montageInterval = null;
@@ -1922,18 +1966,31 @@ document.addEventListener("DOMContentLoaded", () => {
         if (skipBtn) skipBtn.remove();
 
         // Remove the cinematic layer immediately so the real site is fully usable.
+        window.__introWasRemoved = true;
         if (cineRoot) {
             cineRoot.style.opacity = '0';
             cineRoot.style.pointerEvents = 'none';
-            setTimeout(() => cineRoot.remove(), 250);
+            setTimeout(() => {
+                if (cineRoot.parentNode) cineRoot.parentNode.removeChild(cineRoot);
+            }, 120);
         }
     };
 
-    // Returning visitors who previously skipped should never be forced through the intro.
-    if (localStorage.getItem(INTRO_SKIP_KEY) === 'true') {
-        finishIntroImmediately();
-        return;
+    // Expose a global function for the button's safe inline fallback, and bind
+    // the click/touch-friendly button before building animation elements.
+    window.skipCinematicIntro = finishIntroImmediately;
+    if (skipBtn) {
+        skipBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            finishIntroImmediately();
+        }, { passive: false });
     }
+    // Escape is a convenient, accessible keyboard shortcut while the intro is open.
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && document.getElementById('cine-root')) {
+            finishIntroImmediately();
+        }
+    });
 
     document.body.classList.add('intro-active');
 
@@ -2113,10 +2170,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-    skipBtn.addEventListener('click', () => {
-        localStorage.setItem(INTRO_SKIP_KEY, 'true');
-        finishIntroImmediately();
-    });
 
     btn.addEventListener('click', () => {
         btn.style.opacity = '0';
@@ -6124,7 +6177,7 @@ ch11: {
  const currentTheme = document.documentElement.getAttribute('data-theme');
  const newTheme = currentTheme === 'light'? 'dark': 'light';
  document.documentElement.setAttribute('data-theme', newTheme);
- localStorage.setItem('theme', newTheme);
+ try { localStorage.setItem('theme', newTheme); } catch (storageError) { /* Storage is optional; the theme still changes for this page view. */ }
  
  const iconClass = newTheme === 'light'? 'fa-moon': 'fa-sun';
  document.getElementById('theme-icon-desk').className = `fa-solid ${iconClass}`;
@@ -6296,7 +6349,8 @@ ch11: {
  }
  // --- INITIALIZATION ---
  window.onload = () => {
- const savedTheme = localStorage.getItem('theme') || 'light';
+ let savedTheme = 'light';
+ try { savedTheme = localStorage.getItem('theme') || 'light'; } catch (storageError) { /* Use the default theme when storage is unavailable. */ }
  document.documentElement.setAttribute('data-theme', savedTheme);
  
  const iconClass = savedTheme === 'light'? 'fa-moon': 'fa-sun';
